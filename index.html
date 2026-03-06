@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MedDocs — Gestão de Arquivos</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
   :root {
     --bg:      #f0f4f8;
@@ -1195,6 +1196,59 @@
   /* hide app while login is showing */
   .app-hidden { visibility: hidden; pointer-events: none; }
 
+  /* === GOOGLE LOGIN === */
+  .ls-or {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 18px 0 16px;
+    font-size: 11px;
+    color: #9aafc4;
+    font-weight: 500;
+  }
+  .ls-or::before, .ls-or::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #dce5ef;
+  }
+
+  .ls-google-btn {
+    width: 100%;
+    background: #fff;
+    border: 1.5px solid #dce5ef;
+    border-radius: 11px;
+    color: #3c4043;
+    font-family: 'Inter', sans-serif;
+    font-size: 13.5px;
+    font-weight: 600;
+    padding: 11px 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.18s;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    letter-spacing: 0.1px;
+  }
+  .ls-google-btn:hover {
+    background: #f7f9fc;
+    border-color: #4285F4;
+    box-shadow: 0 3px 12px rgba(66,133,244,0.18);
+    transform: translateY(-1px);
+  }
+  .ls-google-btn:active { transform: translateY(0); }
+  .ls-google-btn svg { flex-shrink: 0; }
+
+  .ls-google-info {
+    font-size: 10px;
+    color: #9aafc4;
+    text-align: center;
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+
 </style>
 </head>
 
@@ -1253,6 +1307,24 @@
       <div class="ls-spinner"></div>
       <span class="ls-btn-text">Entrar no Sistema</span>
     </button>
+
+    <!-- OR divider -->
+    <div class="ls-or">ou</div>
+
+    <!-- Google Sign-In Button -->
+    <button class="ls-google-btn" onclick="loginWithGoogle()" id="lsGoogleBtn">
+      <svg width="20" height="20" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.36-8.16 2.36-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+      </svg>
+      Entrar com Google
+    </button>
+
+    <div class="ls-google-info" id="lsGoogleInfo">
+      <!-- Mensagem de configuração aparece aqui se necessário -->
+    </div>
 
     <div class="ls-footer">
       <span>© MedDocs 2025</span>
@@ -1453,11 +1525,95 @@ const USUARIOS = [
   // { usuario: 'novo',  senha: 'senha123'    },
 ];
 
+// ┌──────────────────────────────────────────────────────────────────┐
+// │  ✏️  GOOGLE LOGIN — configure seu Client ID aqui                 │
+// │                                                                  │
+// │  1. Acesse: https://console.cloud.google.com/                    │
+// │  2. Crie um projeto e ative a API "Google Identity"              │
+// │  3. Em "Credenciais" crie um OAuth 2.0 Client ID (Web)          │
+// │  4. Adicione seu domínio em "Origens JavaScript autorizadas"     │
+// │  5. Cole o Client ID abaixo (substitua o texto de exemplo)       │
+// │                                                                  │
+// │  DOMÍNIOS PERMITIDOS (opcional): deixe vazio para aceitar todos  │
+// └──────────────────────────────────────────────────────────────────┘
+const GOOGLE_CLIENT_ID = '561863538667-ouqc1es448ap69677b011t9uc5ujbvsi.apps.googleusercontent.com';
+const GOOGLE_ALLOWED_DOMAINS = []; // Ex: ['sesab.ba.gov.br'] — vazio = qualquer e-mail
+
+function handleCredentialResponse(response) {
+  try {
+    // Decode JWT payload (sem validação — apenas para exibição no client)
+    const payload = JSON.parse(atob(response.credential.split('.')[1]));
+    const email = payload.email || '';
+    const name  = payload.name  || email;
+
+    // Verificar domínio permitido (se configurado)
+    if (GOOGLE_ALLOWED_DOMAINS.length > 0) {
+      const domain = email.split('@')[1] || '';
+      if (!GOOGLE_ALLOWED_DOMAINS.includes(domain)) {
+        showLoginError(`Acesso restrito. Domínio "${domain}" não autorizado.`);
+        return;
+      }
+    }
+
+    // Login bem-sucedido
+    successLogin(name);
+  } catch(e) {
+    showLoginError('Erro ao processar login Google. Tente novamente.');
+  }
+}
+
+function loginWithGoogle() {
+  const clientId = GOOGLE_CLIENT_ID;
+  if (!clientId || clientId.includes('SEU_CLIENT_ID')) {
+    document.getElementById('lsGoogleInfo').innerHTML =
+      '<span style="color:#e03d3d">⚠️ Configure o Google Client ID no código para usar este recurso.</span>';
+    return;
+  }
+  if (typeof google === 'undefined' || !google?.accounts?.id) {
+    document.getElementById('lsGoogleInfo').innerHTML =
+      '<span style="color:#e03d3d">⚠️ SDK Google não carregado. Verifique sua conexão.</span>';
+    return;
+  }
+  google.accounts.id.prompt();
+}
+
+function showLoginError(msg) {
+  const err  = document.getElementById('lsError');
+  const card = document.getElementById('lsCard');
+  document.getElementById('lsErrorMsg').textContent = msg;
+  err.classList.add('visible');
+  card.classList.remove('shake');
+  void card.offsetWidth;
+  card.classList.add('shake');
+}
+
+function successLogin(displayName) {
+  document.getElementById('loginScreen').style.transition = 'opacity 0.45s ease';
+  document.getElementById('loginScreen').style.opacity = '0';
+  setTimeout(() => {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.querySelector('.app').classList.remove('app-hidden');
+    toast(`Bem-vindo, ${displayName}! 👋`, 'success');
+  }, 450);
+}
+
 (function initLogin() {
   // Hide app until logged in
   document.querySelector('.app').classList.add('app-hidden');
   // Focus user field
   setTimeout(() => document.getElementById('lsUser')?.focus(), 300);
+
+  // Initialize Google Identity Services when SDK loads
+  window.addEventListener('load', function() {
+    if (typeof google !== 'undefined' && google?.accounts?.id &&
+        GOOGLE_CLIENT_ID && !GOOGLE_CLIENT_ID.includes('SEU_CLIENT_ID')) {
+      google.accounts.id.initialize({
+        client_id: GOOGLE_CLIENT_ID,
+        callback: handleCredentialResponse,
+        auto_select: false,
+      });
+    }
+  });
 })();
 
 function doLogin() {
@@ -1493,13 +1649,7 @@ function doLogin() {
 
     if (match) {
       // Success — fade out login screen
-      document.getElementById('loginScreen').style.transition = 'opacity 0.45s ease';
-      document.getElementById('loginScreen').style.opacity = '0';
-      setTimeout(() => {
-        document.getElementById('loginScreen').style.display = 'none';
-        document.querySelector('.app').classList.remove('app-hidden');
-        toast(`Bem-vindo, ${match.usuario}! 👋`, 'success');
-      }, 450);
+      successLogin(match.usuario);
     } else {
       btn.classList.remove('loading');
       document.getElementById('lsErrorMsg').textContent = 'Usuário ou senha incorretos.';
@@ -1547,7 +1697,6 @@ const MEUS_LINKS = [
 
   // ── PASTAS DO GOOGLE DRIVE ────────────────────────────────────────────
   { nome: 'Hospital Geral de Itaparica — Etapa 2', pasta: '', url: 'https://drive.google.com/drive/folders/1oYSoqpaO76YvNuJDJig0pUMLK2ebT7UL?usp=sharing' },
-
   // ── ADICIONE NOVOS LINKS ABAIXO ↓ ─────────────────────────────────────
   // { nome: 'Meu Arquivo',  pasta: '',  url: 'https://docs.google.com/...' },
   // { nome: 'Minha Pasta Drive', pasta: '', url: 'https://drive.google.com/drive/folders/...' },
@@ -1999,54 +2148,8 @@ function handleDblClick(name) {
 let _adCurrentItem = null;
 
 function openDriveFile(item) {
-  _adCurrentItem = item;
   toast(`Abrindo "${item.name}"...`, 'info');
-
-  // Open in popup so we can monitor it
-  const popup = window.open(
-    item.url,
-    'drivePopup',
-    'width=1100,height=750,noopener=0'
-  );
-
-  if (!popup || popup.closed) {
-    // Popup was blocked — fallback: show access denied hint
-    showAccessDenied(item);
-    return;
-  }
-
-  // Detect redirect to Google Login via cross-origin polling:
-  // - If popup goes to accounts.google.com it becomes cross-origin → throws
-  // - But Drive files are ALSO cross-origin → also throw
-  // Strategy: after ~1 s, if popup CLOSED on its own (some browsers auto-close
-  // login redirects) OR main window regains focus immediately, flag access denied.
-  let resolved = false;
-  let focusTimer = null;
-
-  const onFocus = () => {
-    // Main window got focus back very quickly (< 3 s) — likely a login bounce
-    if (!resolved) {
-      clearTimeout(focusTimer);
-      resolved = true;
-      window.removeEventListener('focus', onFocus);
-      // Give browser 600ms to decide then check if popup closed or is on login
-      setTimeout(() => checkPopupStatus(popup, item), 600);
-    }
-  };
-
-  // Only attach the focus listener after a brief delay so the initial
-  // focus-loss to the popup itself doesn't trigger it
-  setTimeout(() => {
-    window.addEventListener('focus', onFocus);
-  }, 800);
-
-  // Fallback cleanup after 8 s regardless
-  setTimeout(() => {
-    if (!resolved) {
-      resolved = true;
-      window.removeEventListener('focus', onFocus);
-    }
-  }, 8000);
+  window.location.href = item.url;
 }
 
 function checkPopupStatus(popup, item) {
