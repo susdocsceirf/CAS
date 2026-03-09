@@ -1880,57 +1880,109 @@ function togglePw() {
   }
 }
 
-// ┌─────────────────────────────────────────────────────────────────────────┐
-// │                  ✏️  ADICIONE SEUS LINKS AQUI                           │
-// │                                                                         │
-// │  Para cada arquivo, preencha:                                           │
-// │    nome  → como vai aparecer no gerenciador                             │
-// │    url   → link de compartilhamento do Google Drive                     │
-// │    pasta → nome da pasta onde ficará (crie novas livremente)            │
-// │                                                                         │
-// │  O ícone é detectado AUTOMATICAMENTE pelo tipo do link:                 │
-// │    docs.google.com/spreadsheets  → 🟢 Sheets                           │
-// │    docs.google.com/document      → 🔵 Docs                             │
-// │    docs.google.com/presentation  → 🟡 Slides                           │
-// │    docs.google.com/forms         → 🟣 Forms                            │
-// │    drive.google.com/file         → 🔴 PDF / arquivo Drive               │
-// └─────────────────────────────────────────────────────────────────────────┘
+// ╔══════════════════════════════════════════════════════════════════════════════╗
+// ║  ✏️  ESTRUTURA DE PASTAS — defina a hierarquia aqui, no código              ║
+// ║                                                                              ║
+// ║  Use '/' para criar subpastas em qualquer nível de profundidade.             ║
+// ║  Pastas vazias (sem arquivos) também são criadas normalmente.                ║
+// ║                                                                              ║
+// ║  Exemplos:                                                                   ║
+// ║    'Projetos'                      → pasta simples na raiz                   ║
+// ║    'Projetos/Hospitais'            → subpasta dentro de Projetos             ║
+// ║    'Projetos/Hospitais/2025'       → sub-subpasta (3 níveis)                 ║
+// ║    'Projetos/Hospitais/2025/Abril' → qualquer profundidade                   ║
+// ╚══════════════════════════════════════════════════════════════════════════════╝
 
-const MEUS_LINKS = [
+const MINHAS_PASTAS = [
 
-  // ── PASTAS DO GOOGLE DRIVE ────────────────────────────────────────────
-  { nome: 'Hospital Geral de Itaparica — Etapa 2', pasta: '', url: 'https://drive.google.com/file/d/1sEsdPe59tLwiqokD4r5xRHLBZywVyoMo/view?usp=drive_link' },
-  { nome: 'Analises Hospital Geral de Itaparica', pasta: '', url: 'https://drive.google.com/file/d/1X0kvW07UJXi8FaAlRfochZfB-NHuzx_m/view?usp=drive_link' },
-  { nome: 'IPERBA-BLOCO CIRÚRGICO UTI', pasta: '', url: 'https://drive.google.com/file/d/1jrZCtLnMImaFDJVrzpDqygKq9DYWBGig/view?usp=sharing' },
-  { nome: 'IPERBA- PORTA DE ENTRADA E BANCO DE LEITE', pasta: '', url: 'https://drive.google.com/file/d/18uOEurCp1EJuVKqYFsUSFaxoa6IfSHHB/view?usp=sharing' },
-  { nome: 'S25012 - Elevador CAS', pasta: '', url: 'https://drive.google.com/file/d/1KlAChFinNPC3OPycE-d7sr1HS5MZM9Pz/view?usp=sharing' },
-  // ── ADICIONE NOVOS LINKS ABAIXO ↓ ─────────────────────────────────────
-  // { nome: 'Meu Arquivo',  pasta: '',  url: 'https://docs.google.com/...' },
-  // { nome: 'Minha Pasta Drive', pasta: '', url: 'https://drive.google.com/drive/folders/...' },
+  // ── Estrutura de pastas (ordem define a exibição) ─────────────────────────
+  'Hospital Geral de Itaparica',
+  'Hospital Geral de Itaparica/Projetos',
+  'Hospital Geral de Itaparica/Análises',
+
+  'IPERBA',
+  'IPERBA/Bloco Cirúrgico',
+  'IPERBA/Porta de Entrada',
+
+  'Elevadores',
+
+  // ── ✏️  Adicione novas pastas abaixo ↓ ────────────────────────────────────
+  // 'Minha Nova Pasta',
+  // 'Minha Nova Pasta/Subpasta',
+  // 'Minha Nova Pasta/Subpasta/2025',
 
 ];
 
-// ── Geração automática da estrutura de pastas a partir de MEUS_LINKS ──────
+// ╔══════════════════════════════════════════════════════════════════════════════╗
+// ║  ✏️  ARQUIVOS — associe cada arquivo a uma pasta definida acima             ║
+// ║                                                                              ║
+// ║    nome  → nome que aparece no gerenciador                                   ║
+// ║    pasta → deve corresponder a uma entrada de MINHAS_PASTAS (ou ser novo)    ║
+// ║    url   → link de compartilhamento do Google Drive                          ║
+// ║                                                                              ║
+// ║  Ícone detectado automaticamente pelo tipo do link:                          ║
+// ║    docs.google.com/spreadsheets  → 🟢 Sheets                                ║
+// ║    docs.google.com/document      → 🔵 Docs                                  ║
+// ║    docs.google.com/presentation  → 🟡 Slides                                ║
+// ║    docs.google.com/forms         → 🟣 Forms                                 ║
+// ║    drive.google.com/file         → 🔴 PDF / arquivo Drive                   ║
+// ╚══════════════════════════════════════════════════════════════════════════════╝
+
+const MEUS_LINKS = [
+
+  // ── 📁 Hospital Geral de Itaparica ───────────────────────────────────────
+  { nome: 'Hospital Geral de Itaparica — Etapa 2', pasta: 'Hospital Geral de Itaparica/Projetos', url: 'https://drive.google.com/file/d/1sEsdPe59tLwiqokD4r5xRHLBZywVyoMo/view?usp=drive_link' },
+  { nome: 'Analises Hospital Geral de Itaparica',   pasta: 'Hospital Geral de Itaparica/Análises', url: 'https://drive.google.com/file/d/1X0kvW07UJXi8FaAlRfochZfB-NHuzx_m/view?usp=drive_link' },
+
+  // ── 📁 IPERBA ────────────────────────────────────────────────────────────
+  { nome: 'IPERBA - Bloco Cirúrgico UTI',               pasta: 'IPERBA/Bloco Cirúrgico',   url: 'https://drive.google.com/file/d/1jrZCtLnMImaFDJVrzpDqygKq9DYWBGig/view?usp=sharing' },
+  { nome: 'IPERBA - Porta de Entrada e Banco de Leite', pasta: 'IPERBA/Porta de Entrada',  url: 'https://drive.google.com/file/d/18uOEurCp1EJuVKqYFsUSFaxoa6IfSHHB/view?usp=sharing' },
+
+  // ── 📁 Elevadores ────────────────────────────────────────────────────────
+  { nome: 'S25012 - Elevador CAS', pasta: 'Elevadores', url: 'https://drive.google.com/file/d/1KlAChFinNPC3OPycE-d7sr1HS5MZM9Pz/view?usp=sharing' },
+
+  // ── ✏️  Adicione novos arquivos abaixo ↓ ──────────────────────────────────
+  // { nome: 'Meu Arquivo', pasta: 'Minha Nova Pasta/Subpasta', url: 'https://docs.google.com/...' },
+
+];
+
+// ── Constrói a árvore de pastas a partir de MINHAS_PASTAS + MEUS_LINKS ───────
 function buildFsFromLinks(links) {
   const extMap = { sheets:'gsheet', docs:'gdoc', slides:'gslides', forms:'gform', drawings:'gdraw', 'drive-file':'gdrive', link:'gdrive', autocad:'dwg' };
   const root = { name: 'Início', type: 'folder', modified: new Date(), children: [] };
-  const folderMap = {};
 
+  // Retorna (ou cria) o nó de pasta para um caminho 'A/B/C'
+  function getOrCreateFolder(pathStr) {
+    const parts = pathStr.split('/').map(p => p.trim()).filter(Boolean);
+    let current = root;
+    for (const part of parts) {
+      let child = current.children.find(c => c.type === 'folder' && c.name === part);
+      if (!child) {
+        child = { name: part, type: 'folder', modified: new Date(), children: [] };
+        current.children.push(child);
+      }
+      current = child;
+    }
+    return current;
+  }
+
+  // 1. Cria todas as pastas declaradas em MINHAS_PASTAS (inclusive as vazias)
+  (typeof MINHAS_PASTAS !== 'undefined' ? MINHAS_PASTAS : []).forEach(path => {
+    if (path && path.trim()) getOrCreateFolder(path.trim());
+  });
+
+  // 2. Insere os arquivos de MEUS_LINKS nas pastas correspondentes
   links.forEach(({ nome, pasta, url }) => {
     const type = getDriveTypeEarly(url, nome);
     const ext  = url.includes('.pdf') ? 'pdf' : (extMap[type] || 'gdrive');
-    // Drive folders get a special type so they show folder icon + open URL on dblclick
     const itemType = type === 'drive-folder' ? 'drive-folder' : 'file';
     const item = { name: nome, type: itemType, ext, size: 0, modified: new Date(), url };
 
     if (!pasta) {
       root.children.push(item);
     } else {
-      if (!folderMap[pasta]) {
-        folderMap[pasta] = { name: pasta, type: 'folder', modified: new Date(), children: [] };
-        root.children.push(folderMap[pasta]);
-      }
-      folderMap[pasta].children.push(item);
+      const targetFolder = getOrCreateFolder(pasta);
+      targetFolder.children.push(item);
     }
   });
   return root;
@@ -1955,7 +2007,7 @@ let fs = buildFsFromLinks(MEUS_LINKS);
 
 // ==================== STATE ====================
 let currentPath = ['Início'];
-let history = [['Início']];
+let navHistory = [['Início']];
 let historyIndex = 0;
 let viewMode = 'grid';
 let sortBy = 'name';
@@ -1976,7 +2028,7 @@ function getNode(path) {
   return node;
 }
 
-function navigateTo(path, addHistory = true) {
+function navigateTo(path, addHistory = true, fromBrowser = false) {
   const node = getNode(path);
   if (!node || node.type !== 'folder') return;
   
@@ -1984,9 +2036,13 @@ function navigateTo(path, addHistory = true) {
   selectedItems.clear();
   
   if (addHistory) {
-    history = history.slice(0, historyIndex + 1);
-    history.push([...path]);
-    historyIndex = history.length - 1;
+    navHistory = navHistory.slice(0, historyIndex + 1);
+    navHistory.push([...path]);
+    historyIndex = navHistory.length - 1;
+    // Sync browser history — only when navigation is NOT triggered by browser back/fwd
+    if (!fromBrowser) {
+      window.history.pushState({ navPath: [...path] }, '', '#' + encodeURIComponent(path.join('/')));
+    }
   }
 
   // Close sidebar drawer on mobile after navigation
@@ -1996,18 +2052,29 @@ function navigateTo(path, addHistory = true) {
 }
 
 function navigateBack() {
-  if (historyIndex > 0) {
-    historyIndex--;
-    navigateTo(history[historyIndex], false);
-  }
+  // Delegate to the browser — popstate listener handles the rest
+  window.history.back();
 }
 
 function navigateForward() {
-  if (historyIndex < history.length - 1) {
-    historyIndex++;
-    navigateTo(history[historyIndex], false);
-  }
+  // Delegate to the browser — popstate listener handles the rest
+  window.history.forward();
 }
+
+// React to browser back / forward buttons
+window.addEventListener('popstate', function(e) {
+  if (e.state && e.state.navPath) {
+    const path = e.state.navPath;
+    // Keep internal index in sync
+    const idx = navHistory.findIndex(h => h.join('/') === path.join('/'));
+    if (idx !== -1) historyIndex = idx;
+    navigateTo(path, false, true);
+  } else {
+    // No state — fall back to root
+    historyIndex = 0;
+    navigateTo(['Início'], false, true);
+  }
+});
 
 function navigateUp() {
   if (currentPath.length > 1) {
@@ -2320,7 +2387,7 @@ function getTotalSize(item) {
 
 function updateNavBtns() {
   document.getElementById('btnBack').disabled = historyIndex <= 0;
-  document.getElementById('btnFwd').disabled = historyIndex >= history.length - 1;
+  document.getElementById('btnFwd').disabled = historyIndex >= navHistory.length - 1;
 }
 
 // ==================== SELECTION ====================
@@ -2444,6 +2511,7 @@ function showCtxMenu(e, name) {
   const menu = document.getElementById('contextMenu');
   menu.innerHTML = `
     ${isFolder ? `<div class="ctx-item" onclick="handleDblClick('${name}'); closeCtxMenu()"><span class="ctx-icon">📂</span> Abrir</div>` : ''}
+    ${isFolder ? `<div class="ctx-item" onclick="openModalInFolder('${name.replace(/'/g,"\\'")}'); closeCtxMenu()"><span class="ctx-icon">📁</span> Nova pasta aqui</div>` : ''}
     ${!isFolder && item?.url ? `<div class="ctx-item" onclick="openDriveFile(${JSON.stringify(item)}); closeCtxMenu()"><span class="ctx-icon">🔗</span> Abrir no Google Drive</div>` : ''}
     ${!isFolder && !item?.url ? `<div class="ctx-item" onclick="toast('Abrindo arquivo...','info'); closeCtxMenu()"><span class="ctx-icon">▶</span> Abrir</div>` : ''}
     <div class="ctx-sep"></div>
@@ -2598,6 +2666,43 @@ function createItem(type) {
   closeModal();
   render();
   toast(`"${name}" criado com sucesso`, 'success');
+}
+
+// Cria uma subpasta DENTRO de uma pasta existente sem precisar navegar até ela
+function openModalInFolder(parentName) {
+  const overlay = document.getElementById('modalOverlay');
+  document.getElementById('modalTitle').textContent = '📁 Nova Subpasta';
+  document.getElementById('modalSub').textContent = `Criar pasta dentro de "${parentName}"`;
+  const input = document.getElementById('modalInput');
+  input.style.display = '';
+  input.value = 'Nova pasta';
+  input.placeholder = 'Nome da subpasta';
+  document.getElementById('modalBtns').innerHTML = `
+    <button class="modal-btn" onclick="closeModal()">Cancelar</button>
+    <button class="modal-btn primary" onclick="createSubFolder(${JSON.stringify(parentName)})">Criar</button>
+  `;
+  overlay.style.display = 'flex';
+  setTimeout(() => { input.select(); input.focus(); }, 50);
+}
+
+function createSubFolder(parentName) {
+  const name = document.getElementById('modalInput').value.trim();
+  if (!name) return;
+
+  const currentNode = getCurrentNode();
+  const parentNode = currentNode.children?.find(c => c.name === parentName && c.type === 'folder');
+  if (!parentNode) { toast('Pasta não encontrada', 'error'); return; }
+
+  if (!parentNode.children) parentNode.children = [];
+  if (parentNode.children.find(c => c.name === name)) {
+    toast(`"${name}" já existe dentro de "${parentName}"`, 'error');
+    return;
+  }
+
+  parentNode.children.push({ name, type: 'folder', modified: new Date(), children: [] });
+  closeModal();
+  render();
+  toast(`Pasta "${name}" criada dentro de "${parentName}"`, 'success');
 }
 
 function deleteSelected() {
@@ -2934,11 +3039,10 @@ const _origNavigateTo = navigateTo;
 // ==================== INIT ====================
 render();
 toast('MedDocs carregado com sucesso!', 'success');
+// Seed the initial browser history state so the back button works right away
+window.history.replaceState({ navPath: ['Início'] }, '', '#' + encodeURIComponent('Início'));
+// Seed initial browser history entry so back button works from the start
+window.history.replaceState({ navPath: ['Início'] }, '', '#' + encodeURIComponent('Início'));
 </script>
 </body>
 </html>
-
-
-
-
-
