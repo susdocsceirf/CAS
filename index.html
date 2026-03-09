@@ -50,12 +50,15 @@
   /* === LAYOUT === */
   .app {
     display: grid;
+    grid-template-columns: 220px 1fr;
     grid-template-rows: 48px 1fr 28px;
     height: 100vh;
   }
 
   /* === TITLEBAR === */
   .titlebar {
+    grid-column: 2;
+    grid-row: 1;
     background: var(--bg2);
     border-bottom: 1px solid var(--border);
     display: flex;
@@ -175,13 +178,17 @@
 
   /* === MAIN AREA === */
   .main {
-    display: grid;
-    grid-template-columns: 220px 1fr;
+    grid-column: 2;
+    grid-row: 2;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
   }
 
   /* === SIDEBAR === */
   .sidebar {
+    grid-column: 1;
+    grid-row: 1 / 4;
     background: var(--bg2);
     border-right: 1px solid var(--border);
     overflow-y: auto;
@@ -449,6 +456,8 @@
 
   /* === STATUSBAR === */
   .statusbar {
+    grid-column: 2;
+    grid-row: 3;
     background: var(--bg2);
     border-top: 1px solid var(--border);
     display: flex;
@@ -933,8 +942,200 @@
 
 
   /* =========================================
-     LOGIN SCREEN
+     RESPONSIVO
      ========================================= */
+
+  /* ── Mobile (≤ 768px) ── */
+  @media (max-width: 768px) {
+    body { overflow: auto; }
+
+    .app {
+      grid-template-columns: 1fr;
+      grid-template-rows: 52px 1fr auto;
+      height: 100dvh;
+      min-height: 100dvh;
+    }
+
+    /* ── Titlebar mobile ── */
+    .titlebar {
+      grid-column: 1;
+      grid-row: 1;
+      padding: 0 10px;
+      gap: 8px;
+      flex-wrap: nowrap;
+      overflow: hidden;
+    }
+
+    .main {
+      grid-column: 1;
+      grid-row: 2;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .statusbar {
+      grid-column: 1;
+      grid-row: 3;
+    }
+
+    .logo-sub { display: none; }
+    .logo-img  { height: 30px; }
+
+    /* breadcrumb shrinks */
+    .breadcrumb { min-width: 0; font-size: 11px; padding: 4px 8px; }
+
+    /* hide desktop toolbar buttons from titlebar */
+    .titlebar > .toolbar-btn { display: none; }
+
+    /* hide nav buttons */
+    .nav-btns { display: none; }
+
+    /* search becomes icon-only until tapped */
+    .search { width: 32px; padding: 5px 8px 5px 28px; }
+    .search:focus { width: 160px; }
+
+    /* hamburger button */
+    .ham-btn {
+      display: flex !important;
+    }
+
+    /* ── Sidebar becomes a slide-in drawer ── */
+    .sidebar {
+      grid-column: unset;
+      grid-row: unset;
+      position: fixed;
+      top: 52px;
+      left: 0;
+      bottom: 0;
+      width: 260px;
+      z-index: 500;
+      transform: translateX(-100%);
+      transition: transform 0.28s cubic-bezier(0.4,0,0.2,1);
+      box-shadow: none;
+      border-right: 1px solid var(--border);
+    }
+
+    .sidebar.open {
+      transform: translateX(0);
+      box-shadow: 8px 0 32px rgba(15,50,100,0.18);
+    }
+
+    /* dim overlay behind sidebar */
+    .sidebar-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(10,20,40,0.38);
+      z-index: 499;
+      backdrop-filter: blur(2px);
+    }
+    .sidebar-backdrop.visible { display: block; }
+
+    /* ── Content toolbar: show icons only, wrap ── */
+    .content-toolbar {
+      padding: 6px 10px;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+
+    .toolbar-btn {
+      font-size: 14px;
+      padding: 5px 7px;
+    }
+
+    /* show only emoji in mobile toolbar btns */
+    .btn-label { display: none; }
+
+    /* selected info smaller */
+    .selected-info { font-size: 10px; margin-left: 4px; }
+
+    /* view toggle stays */
+    .view-toggle { margin-left: auto; }
+
+    /* file grid adapts */
+    .file-grid {
+      grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
+      gap: 6px;
+    }
+
+    .file-area { padding: 10px; }
+
+    .file-item { padding: 10px 6px; gap: 6px; }
+    .file-item .file-icon { font-size: 26px; }
+    .file-item .file-name { font-size: 10px; }
+
+    /* list view: hide date & size columns */
+    .list-item {
+      grid-template-columns: 24px 1fr 70px;
+    }
+    .list-item .file-date,
+    .list-item .file-size,
+    .list-header .col-date,
+    .list-header .col-size { display: none; }
+
+    .list-header {
+      grid-template-columns: 24px 1fr 70px;
+    }
+
+    /* statusbar: compress */
+    .statusbar {
+      padding: 0 10px;
+      gap: 8px;
+      font-size: 10px;
+      overflow-x: auto;
+      flex-wrap: nowrap;
+      white-space: nowrap;
+    }
+    .status-sep { display: none; }
+    #statusSelected,
+    #statusSize { display: none; }
+
+    /* modal full-width */
+    .modal {
+      width: calc(100vw - 24px);
+      max-width: 400px;
+      padding: 20px 16px;
+      margin: 0 12px;
+    }
+
+    /* toasts */
+    .toast-container { bottom: 32px; right: 10px; left: 10px; }
+    .toast { min-width: unset; width: 100%; }
+
+    /* context menu */
+    .context-menu { min-width: 160px; font-size: 13px; }
+
+    /* access denied panel */
+    .ad-panel { width: calc(100vw - 32px); max-width: 380px; padding: 28px 20px; }
+  }
+
+  /* ── Small mobile (≤ 400px) ── */
+  @media (max-width: 400px) {
+    .logo-title { font-size: 11px; }
+    .file-grid {
+      grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+    }
+    .ls-card { padding: 32px 20px 28px; }
+  }
+
+  /* Hamburger button — hidden on desktop */
+  .ham-btn {
+    display: none;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text2);
+    padding: 5px 8px;
+    cursor: pointer;
+    font-size: 18px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.15s;
+    line-height: 1;
+  }
+  .ham-btn:hover { color: var(--accent); border-color: var(--accent2); }
+
   #loginScreen {
     position: fixed; inset: 0;
     background: linear-gradient(145deg, #e8f1f9 0%, #f0f4f8 40%, #ddeeff 100%);
@@ -1339,8 +1540,50 @@
 
 
 <div class="app">
-  <!-- TITLEBAR -->
+  <!-- SIDEBAR (col 1, full height) -->
+  <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeSidebar()"></div>
+  <div class="sidebar">
+    <div class="health-banner">
+      <span class="health-cross">✚</span>
+      <span>Sistema de Saúde</span>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Favoritos</div>
+      <div class="tree-item selected" onclick="navigateTo(['Início'])">
+        <span class="icon">🏠</span>
+        <span class="name">Início</span>
+      </div>
+      <div class="tree-item" onclick="navigateTo(['Início', 'Planilhas'])">
+        <span class="icon">📗</span>
+        <span class="name">Planilhas</span>
+      </div>
+      <div class="tree-item" onclick="navigateTo(['Início', 'Documentos'])">
+        <span class="icon">📘</span>
+        <span class="name">Documentos</span>
+      </div>
+      <div class="tree-item" onclick="navigateTo(['Início', 'Apresentações'])">
+        <span class="icon">📊</span>
+        <span class="name">Apresentações</span>
+      </div>
+      <div class="tree-item" onclick="navigateTo(['Início', 'Formulários'])">
+        <span class="icon">📋</span>
+        <span class="name">Formulários</span>
+      </div>
+      <div class="tree-item" onclick="navigateTo(['Início', 'Projetos AutoCAD'])">
+        <span class="icon">📐</span>
+        <span class="name">Projetos AutoCAD</span>
+      </div>
+    </div>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Árvore</div>
+      <div id="sidebarTree"></div>
+    </div>
+  </div>
+
+  <!-- TITLEBAR (col 2, row 1) -->
   <div class="titlebar">
+    <button class="ham-btn" id="hamBtn" onclick="toggleSidebar()" title="Menu">☰</button>
     <div class="logo">
       <img class="logo-img" src="images.png" alt="Logo" onerror="this.style.display='none'">
       <div class="logo-text-block">
@@ -1358,60 +1601,20 @@
       <span class="search-icon">⌕</span>
       <input class="search" type="text" placeholder="Buscar arquivos..." id="searchInput" oninput="handleSearch(this.value)">
     </div>
-    <button class="toolbar-btn" onclick="openModal('folder')">📁 Nova pasta</button>
-    <button class="toolbar-btn" onclick="openModal('file')">📄 Novo arquivo</button>
-    <button class="toolbar-btn drive-btn" onclick="openDriveLinkModal()">🔗 Link Drive</button>
+    <button class="toolbar-btn" onclick="openModal('folder')">📁 <span class="btn-label">Nova pasta</span></button>
+    <button class="toolbar-btn" onclick="openModal('file')">📄 <span class="btn-label">Novo arquivo</span></button>
+    <button class="toolbar-btn drive-btn" onclick="openDriveLinkModal()">🔗 <span class="btn-label">Link Drive</span></button>
   </div>
 
-  <!-- MAIN -->
+  <!-- MAIN (col 2, row 2) -->
   <div class="main">
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-      <div class="health-banner">
-        <span class="health-cross">✚</span>
-        <span>Sistema de Saúde</span>
-      </div>
-      <div class="sidebar-section">
-        <div class="sidebar-label">Favoritos</div>
-        <div class="tree-item selected" onclick="navigateTo(['Início'])">
-          <span class="icon">🏠</span>
-          <span class="name">Início</span>
-        </div>
-        <div class="tree-item" onclick="navigateTo(['Início', 'Planilhas'])">
-          <span class="icon">📗</span>
-          <span class="name">Planilhas</span>
-        </div>
-        <div class="tree-item" onclick="navigateTo(['Início', 'Documentos'])">
-          <span class="icon">📘</span>
-          <span class="name">Documentos</span>
-        </div>
-        <div class="tree-item" onclick="navigateTo(['Início', 'Apresentações'])">
-          <span class="icon">📊</span>
-          <span class="name">Apresentações</span>
-        </div>
-        <div class="tree-item" onclick="navigateTo(['Início', 'Formulários'])">
-          <span class="icon">📋</span>
-          <span class="name">Formulários</span>
-        </div>
-        <div class="tree-item" onclick="navigateTo(['Início', 'Projetos AutoCAD'])">
-          <span class="icon">📐</span>
-          <span class="name">Projetos AutoCAD</span>
-        </div>
-      </div>
-      <div class="sidebar-divider"></div>
-      <div class="sidebar-section">
-        <div class="sidebar-label">Árvore</div>
-        <div id="sidebarTree"></div>
-      </div>
-    </div>
-
     <!-- CONTENT -->
     <div class="content">
       <div class="content-toolbar">
-        <button class="toolbar-btn" id="btnCut" onclick="cutSelected()">✂️ Recortar</button>
-        <button class="toolbar-btn" id="btnCopy" onclick="copySelected()">📋 Copiar</button>
-        <button class="toolbar-btn" id="btnPaste" onclick="pasteItems()" id="btnPaste">📌 Colar</button>
-        <button class="toolbar-btn danger" id="btnDelete" onclick="deleteSelected()" style="color:var(--warn)">🗑️ Excluir</button>
+        <button class="toolbar-btn" id="btnCut" onclick="cutSelected()">✂️ <span class="btn-label">Recortar</span></button>
+        <button class="toolbar-btn" id="btnCopy" onclick="copySelected()">📋 <span class="btn-label">Copiar</span></button>
+        <button class="toolbar-btn" id="btnPaste" onclick="pasteItems()">📌 <span class="btn-label">Colar</span></button>
+        <button class="toolbar-btn danger" id="btnDelete" onclick="deleteSelected()" style="color:var(--warn)">🗑️ <span class="btn-label">Excluir</span></button>
         <span class="selected-info" id="selectedInfo"></span>
         <div class="view-toggle">
           <button class="view-btn active" id="viewGrid" onclick="setView('grid')" title="Grid">⊞</button>
@@ -1434,7 +1637,7 @@
     </div>
   </div>
 
-  <!-- STATUSBAR -->
+  <!-- STATUSBAR (col 2, row 3) -->
   <div class="statusbar">
     <div class="status-item">
       <div class="status-dot"></div>
@@ -1696,7 +1899,7 @@ function togglePw() {
 const MEUS_LINKS = [
 
   // ── PASTAS DO GOOGLE DRIVE ────────────────────────────────────────────
-  { nome: 'Hospital Geral de Itaparica — Etapa 2', pasta: '', url: 'https://drive.google.com/file/d/1sEsdPe59tLwiqokD4r5xRHLBZywVyoMo/view?usp=drive_link' },
+  { nome: 'Hospital Geral de Itaparica — Etapa 2', pasta: '', url: 'https://drive.google.com/drive/folders/1oYSoqpaO76YvNuJDJig0pUMLK2ebT7UL?usp=sharing' },
   // ── ADICIONE NOVOS LINKS ABAIXO ↓ ─────────────────────────────────────
   // { nome: 'Meu Arquivo',  pasta: '',  url: 'https://docs.google.com/...' },
   // { nome: 'Minha Pasta Drive', pasta: '', url: 'https://drive.google.com/drive/folders/...' },
@@ -1781,6 +1984,9 @@ function navigateTo(path, addHistory = true) {
     history.push([...path]);
     historyIndex = history.length - 1;
   }
+
+  // Close sidebar drawer on mobile after navigation
+  if (window.innerWidth <= 768) closeSidebar();
   
   render();
 }
@@ -2698,10 +2904,32 @@ function createDriveLink() {
   toast(`"${name}" adicionado com sucesso!`, 'success');
 }
 
+// ==================== RESPONSIVE SIDEBAR ====================
+function toggleSidebar() {
+  const sidebar  = document.querySelector('.sidebar');
+  const backdrop = document.getElementById('sidebarBackdrop');
+  const isOpen   = sidebar.classList.contains('open');
+  if (isOpen) { closeSidebar(); } else { openSidebarDrawer(); }
+}
+
+function openSidebarDrawer() {
+  document.querySelector('.sidebar').classList.add('open');
+  document.getElementById('sidebarBackdrop').classList.add('visible');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeSidebar() {
+  document.querySelector('.sidebar').classList.remove('open');
+  document.getElementById('sidebarBackdrop').classList.remove('visible');
+  document.body.style.overflow = '';
+}
+
+// Close sidebar on navigation on mobile
+const _origNavigateTo = navigateTo;
+
 // ==================== INIT ====================
 render();
 toast('MedDocs carregado com sucesso!', 'success');
 </script>
 </body>
 </html>
-
