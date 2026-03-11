@@ -1717,15 +1717,23 @@
 <script>
 
 // ==================== LOGIN ====================
-// ┌──────────────────────────────────────────────────────┐
-// │  ✏️  CREDENCIAIS DE ACESSO — altere aqui             │
-// │                                                      │
-// │  Você pode adicionar mais usuários à lista abaixo.   │
-// └──────────────────────────────────────────────────────┘
+// ┌─────────────────────────────────────────────────────────────────┐
+// │  ✏️  CREDENCIAIS DE ACESSO — altere aqui                        │
+// │                                                                 │
+// │  As senhas são armazenadas como hashes SHA-256 (nunca em texto  │
+// │  puro). Para gerar um novo hash, acesse:                        │
+// │  https://emn178.github.io/online-tools/sha256.html             │
+// │  e cole o hash gerado no campo "senhaHash" abaixo.             │
+// │                                                                 │
+// │  Você pode adicionar mais usuários à lista abaixo.              │
+// └─────────────────────────────────────────────────────────────────┘
 const USUARIOS = [
-  { usuario: 'admin',    senha: 'meddocs2025' },
-  { usuario: 'sesab',    senha: 'sesab@2025'  },
-  // { usuario: 'novo',  senha: 'senha123'    },
+  // senha: 'meddocs2025'
+  { usuario: 'admin', senhaHash: '04ec5063c3ff7aa8dd2c7d8b1d95aed3b24022487b899a91724e9d99d84b2927' },
+  // senha: 'sesab@2025'
+  { usuario: 'sesab', senhaHash: '4a68633b120820e6444aac7beb6a5be42bf007e95210722b398efecf545a44d7' },
+  // Para adicionar novo usuário, gere o hash da senha e cole abaixo:
+  // { usuario: 'novo', senhaHash: '<hash-sha256-da-senha>' },
 ];
 
 // ┌──────────────────────────────────────────────────────────────────┐
@@ -1819,7 +1827,18 @@ function successLogin(displayName) {
   });
 })();
 
-function doLogin() {
+// Gera hash SHA-256 de uma string usando a Web Crypto API (nativa no navegador)
+async function sha256(str) {
+  const buffer = await crypto.subtle.digest(
+    'SHA-256',
+    new TextEncoder().encode(str)
+  );
+  return Array.from(new Uint8Array(buffer))
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('');
+}
+
+async function doLogin() {
   const user = document.getElementById('lsUser').value.trim();
   const pass = document.getElementById('lsPass').value;
   const btn  = document.getElementById('lsBtn');
@@ -1845,9 +1864,12 @@ function doLogin() {
   // Loading state
   btn.classList.add('loading');
 
-  setTimeout(() => {
+  try {
+    // Nunca comparamos a senha em texto puro — apenas o hash SHA-256
+    const passHash = await sha256(pass);
+
     const match = USUARIOS.find(u =>
-      u.usuario.toLowerCase() === user.toLowerCase() && u.senha === pass
+      u.usuario.toLowerCase() === user.toLowerCase() && u.senhaHash === passHash
     );
 
     if (match) {
@@ -1865,7 +1887,11 @@ function doLogin() {
       card.classList.add('shake');
       setTimeout(() => document.getElementById('lsPass').focus(), 100);
     }
-  }, 700); // simula verificação
+  } catch(e) {
+    btn.classList.remove('loading');
+    document.getElementById('lsErrorMsg').textContent = 'Erro interno. Tente novamente.';
+    err.classList.add('visible');
+  }
 }
 
 function togglePw() {
@@ -1939,7 +1965,7 @@ const MEUS_LINKS = [
   { nome: 'IPERBA - Porta de Entrada e Banco de Leite', pasta: 'IPERBA/Porta de Entrada',  url: 'https://drive.google.com/file/d/18uOEurCp1EJuVKqYFsUSFaxoa6IfSHHB/view?usp=sharing' },
 
   // ── 📁 Elevadores- CEDEBA ────────────────────────────────────────────────────────
-  { nome: 'S25012 - Elevador CEDEBA', pasta: 'Elevadores- CEDEBA', url: 'https://drive.google.com/file/d/1KlAChFinNPC3OPycE-d7sr1HS5MZM9Pz/view?usp=sharing' },
+  { nome: 'S25012 - Elevador CAS', pasta: 'Elevadores- CEDEBA', url: 'https://drive.google.com/file/d/1KlAChFinNPC3OPycE-d7sr1HS5MZM9Pz/view?usp=sharing' },
 
   // ── ✏️  Adicione novos arquivos abaixo ↓ ──────────────────────────────────
   // { nome: 'Meu Arquivo', pasta: 'Minha Nova Pasta/Subpasta', url: 'https://docs.google.com/...' },
@@ -3046,4 +3072,3 @@ window.history.replaceState({ navPath: ['Início'] }, '', '#' + encodeURICompone
 </script>
 </body>
 </html>
-
