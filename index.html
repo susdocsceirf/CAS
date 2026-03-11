@@ -2431,6 +2431,15 @@ function getDriveTypeEarly(url, nome) {
 // ==================== DATA ====================
 let fs = buildFsFromLinks(MEUS_LINKS);
 
+// Pasta local — abre X:\CAS diretamente no explorador de arquivos
+fs.children.unshift({
+  name: 'CAS',
+  type: 'local-folder',
+  localPath: 'file:///X:/CAS',
+  modified: new Date(),
+  children: []
+});
+
 // ==================== STATE ====================
 let currentPath = ['Início'];
 let navHistory = [['Início']];
@@ -2628,6 +2637,7 @@ function getIcon(item, size = 32) {
     if (item.ext === 'pdf') return getDriveIconSVG('pdf', size);
     return getDriveIconSVG(type, size);
   }
+  if (item.type === 'local-folder') return '🗂️';
   if (item.type === 'folder') return '📁';
   const icons = {
     pdf: '📕', docx: '📘', doc: '📘', txt: '📝', md: '📝',
@@ -2836,6 +2846,11 @@ function handleDblClick(name) {
   const node = getNode(currentPath);
   const item = node?.children?.find(c => c.name === name);
   if (!item) return;
+  if (item.type === 'local-folder') {
+    toast('Abrindo pasta local CAS...', 'info');
+    window.location.href = item.localPath;
+    return;
+  }
   if (item.type === 'folder') {
     navigateTo([...currentPath, name]);
   } else if (item.type === 'drive-folder' && item.url) {
