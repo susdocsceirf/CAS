@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MedDocs — Gestão de Arquivos</title>
+<title>SusDocs — Gestão de Arquivos</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
@@ -1618,7 +1618,7 @@
            onerror="this.style.display='none'; document.getElementById('lsLogoFallback').style.display='flex'">
       <div class="ls-logo-fallback" id="lsLogoFallback" style="display:none">✚</div>
       <div>
-        <div class="ls-title">MedDocs</div>
+        <div class="ls-title">SusDocs</div>
         <div class="ls-sub">Sistema de Gestão de Arquivos</div>
       </div>
     </div>
@@ -1668,7 +1668,7 @@
     <!-- Google login oculto -->
 
     <div class="ls-footer">
-      <span>© MedDocs 2025</span>
+      <span>© SusDocs 2025</span>
       <div class="ls-footer-badge">
         <div class="ls-footer-dot"></div>
         Sistema Online
@@ -1684,7 +1684,7 @@
       <img class="ls-logo-img" src="images.png" alt="SESAB" onerror="this.style.display='none'">
       <div>
         <div class="ls-title">Criar Conta</div>
-        <div class="ls-sub">Cadastro no MedDocs</div>
+        <div class="ls-sub">Cadastro no SusDocs</div>
       </div>
     </div>
 
@@ -1751,7 +1751,7 @@
     </div>
 
     <div class="ls-footer">
-      <span>© MedDocs 2025</span>
+      <span>© SusDocs 2025</span>
       <div class="ls-footer-badge">
         <div class="ls-footer-dot"></div>
         Sistema Online
@@ -1810,7 +1810,7 @@
     <div class="logo">
       <img class="logo-img" src="images.png" alt="Logo" onerror="this.style.display='none'">
       <div class="logo-text-block">
-        <span class="logo-title">MedDocs</span>
+        <span class="logo-title">SusDocs</span>
         <span class="logo-sub">Gestão de Arquivos</span>
       </div>
     </div>
@@ -1865,7 +1865,7 @@
   <div class="statusbar">
     <div class="status-item">
       <div class="status-dot"></div>
-      MedDocs v2.0
+      SusDocs v2.0
     </div>
     <span class="status-sep">|</span>
     <div class="status-item" id="statusPath">Início</div>
@@ -1944,7 +1944,7 @@
         <span id="adFileName">—</span>
       </div>
       <div class="ad-footer-sep">·</div>
-      <div class="ad-footer-item">Sistema MedDocs</div>
+      <div class="ad-footer-item">Sistema SusDocs</div>
     </div>
   </div>
 </div>
@@ -1978,7 +1978,7 @@
 // │  4. Copie o Bin ID da URL e cole em JSONBIN_BIN_ID                   │
 // │  5. Cole sua Master Key em JSONBIN_API_KEY                           │
 // │                                                                      │
-// │  Senha padrão do admin: meddocs2025                                  │
+// │  Senha padrão do admin: susdocs2025                                  │
 // └──────────────────────────────────────────────────────────────────────┘
 const JSONBIN_BIN_ID  = '69b163bcc3097a1dd5179aaa';
 const JSONBIN_API_KEY = '$2a$10$RWVOBCzux61lK4LBq5m2neznR82urnVZcOtksI8Zgrep5bKmvx2D2';
@@ -1986,7 +1986,7 @@ const JSONBIN_API_KEY = '$2a$10$RWVOBCzux61lK4LBq5m2neznR82urnVZcOtksI8Zgrep5bKm
 let _usuariosCache = null;
 let _loggedUser    = null;
 
-// Usuários padrão para inicializar o bin (admin / meddocs2025)
+// Usuários padrão para inicializar o bin (admin / susdocs2025)
 const _DEFAULT_USUARIOS = [
   { usuario: 'admin', senhaHash: '04ec5063c3ff7aa8dd2c7d8b1d95aed3b24022487b899a91724e9d99d84b2927', isAdmin: true }
 ];
@@ -3618,7 +3618,7 @@ const _origNavigateTo = navigateTo;
 
 // ==================== INIT ====================
 render();
-toast('MedDocs carregado com sucesso!', 'success');
+toast('SusDocs carregado com sucesso!', 'success');
 // Seed the initial browser history state so the back button works right away
 window.history.replaceState({ navPath: ['Início'] }, '', '#' + encodeURIComponent('Início'));
 // Seed initial browser history entry so back button works from the start
