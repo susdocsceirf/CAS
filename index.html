@@ -1450,6 +1450,158 @@
     line-height: 1.5;
   }
 
+  /* === USER MANAGER MODAL === */
+  #userManagerOverlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.72);
+    backdrop-filter: blur(4px);
+    display: none; align-items: center; justify-content: center;
+    z-index: 3000;
+    animation: fadeIn 0.15s ease;
+  }
+  #userManagerOverlay.open { display: flex; }
+  .um-modal {
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: 14px;
+    padding: 28px;
+    width: 460px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.7);
+    animation: modalIn 0.15s ease;
+  }
+  .um-header { display: flex; align-items: center; justify-content: space-between; }
+  .um-title { font-family: 'Plus Jakarta Sans',sans-serif; font-size: 16px; font-weight: 700; color: var(--text); }
+  .um-close { background: none; border: none; cursor: pointer; font-size: 18px; color: var(--text3); padding: 2px 6px; border-radius: 4px; }
+  .um-close:hover { background: var(--bg4); color: var(--text); }
+  .um-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; max-height: 320px; }
+  .um-list::-webkit-scrollbar { width: 4px; }
+  .um-list::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+  .um-row {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px 14px;
+    font-size: 13px;
+  }
+  .um-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--accent); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 13px; flex-shrink: 0;
+  }
+  .um-info { flex: 1; }
+  .um-name { color: var(--text); font-weight: 500; }
+  .um-badge {
+    font-size: 9px; padding: 2px 6px; border-radius: 10px;
+    background: rgba(15,111,186,0.12); color: var(--accent);
+    font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;
+  }
+  .um-badge.user { background: var(--bg4); color: var(--text3); }
+  .um-actions { display: flex; gap: 6px; }
+  .um-btn {
+    background: none; border: 1px solid var(--border);
+    border-radius: 5px; cursor: pointer; padding: 4px 8px;
+    font-size: 12px; color: var(--text2); transition: all 0.15s;
+  }
+  .um-btn:hover { border-color: var(--accent2); color: var(--accent); }
+  .um-btn.danger:hover { border-color: var(--warn); color: var(--warn); }
+  .um-divider { height: 1px; background: var(--border); }
+  .um-form { display: flex; flex-direction: column; gap: 10px; }
+  .um-form-title { font-size: 12px; font-weight: 600; color: var(--text2); }
+  .um-form-row { display: flex; gap: 8px; }
+  .um-input {
+    flex: 1; background: var(--bg3); border: 1px solid var(--border2);
+    border-radius: 6px; padding: 8px 10px; color: var(--text);
+    font-family: inherit; font-size: 12px; outline: none;
+  }
+  .um-input:focus { border-color: var(--accent); }
+  .um-input::placeholder { color: var(--text3); }
+  .um-submit {
+    background: var(--accent); border: none; border-radius: 6px;
+    color: #fff; padding: 8px 16px; cursor: pointer;
+    font-family: inherit; font-size: 12px; font-weight: 600;
+    transition: background 0.15s; white-space: nowrap;
+  }
+  .um-submit:hover { background: var(--accent2); }
+  .um-submit:disabled { opacity: 0.5; cursor: default; }
+  .um-msg { font-size: 11px; min-height: 16px; }
+  .um-msg.ok  { color: var(--accent3); }
+  .um-msg.err { color: var(--warn); }
+
+
+  /* === REGISTER PANEL === */
+  .ls-panel {
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+  .ls-panel.hidden {
+    display: none;
+  }
+  .ls-register-link {
+    text-align: center;
+    margin-top: 14px;
+    font-size: 12px;
+    color: var(--text3, #9aafc4);
+  }
+  .ls-register-link a {
+    color: var(--accent, #0f6fba);
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .ls-register-link a:hover { text-decoration: underline; }
+  .ls-reg-success {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 0 8px;
+    text-align: center;
+  }
+  .ls-reg-success .reg-icon { font-size: 40px; }
+  .ls-reg-success .reg-title { font-size: 15px; font-weight: 700; color: #17a05a; }
+  .ls-reg-success .reg-sub { font-size: 12px; color: #9aafc4; line-height: 1.5; }
+  .ls-back-link {
+    text-align: center;
+    margin-top: 14px;
+    font-size: 12px;
+    color: var(--text3, #9aafc4);
+  }
+  .ls-back-link a {
+    color: var(--accent, #0f6fba);
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .ls-back-link a:hover { text-decoration: underline; }
+  .ls-reg-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #17a05a, #128a4a);
+    border: none;
+    border-radius: 11px;
+    color: white;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 13px;
+    cursor: pointer;
+    transition: all 0.18s;
+    box-shadow: 0 4px 16px rgba(23,160,90,0.28);
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin-top: 6px;
+  }
+  .ls-reg-btn:hover { background: linear-gradient(135deg, #1db368, #17a05a); transform: translateY(-1px); }
+  .ls-reg-btn:disabled { opacity: 0.6; cursor: default; transform: none; }
+  .ls-reg-note {
+    font-size: 11px;
+    color: #9aafc4;
+    text-align: center;
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+
 </style>
 </head>
 
@@ -1509,22 +1661,93 @@
       <span class="ls-btn-text">Entrar no Sistema</span>
     </button>
 
-    <!-- OR divider -->
-    <div class="ls-or">ou</div>
+    <div class="ls-register-link">
+      Não tem conta? <a onclick="showRegisterPanel()">Criar conta</a>
+    </div>
 
-    <!-- Google Sign-In Button -->
-    <button class="ls-google-btn" onclick="loginWithGoogle()" id="lsGoogleBtn">
-      <svg width="20" height="20" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.36-8.16 2.36-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+    <!-- Google login oculto -->
+
+    <div class="ls-footer">
+      <span>© MedDocs 2025</span>
+      <div class="ls-footer-badge">
+        <div class="ls-footer-dot"></div>
+        Sistema Online
+      </div>
+    </div>
+
+  </div>
+
+  <!-- REGISTER PANEL -->
+  <div class="ls-panel hidden" id="lsRegPanel">
+
+    <div class="ls-logo-wrap">
+      <img class="ls-logo-img" src="images.png" alt="SESAB" onerror="this.style.display='none'">
+      <div>
+        <div class="ls-title">Criar Conta</div>
+        <div class="ls-sub">Cadastro no MedDocs</div>
+      </div>
+    </div>
+
+    <div class="ls-divider"></div>
+
+    <div class="ls-error" id="lsRegError">
+      <svg width="15" height="15" viewBox="0 0 20 20" fill="none">
+        <circle cx="10" cy="10" r="9" stroke="#c8152b" stroke-width="2"/>
+        <path d="M10 6v4m0 3v1" stroke="#c8152b" stroke-width="2" stroke-linecap="round"/>
       </svg>
-      Entrar com Google
-    </button>
+      <span id="lsRegErrorMsg"></span>
+    </div>
 
-    <div class="ls-google-info" id="lsGoogleInfo">
-      <!-- Mensagem de configuração aparece aqui se necessário -->
+    <div id="lsRegForm">
+      <div class="ls-field">
+        <label class="ls-label" for="lsRegUser">Usuário</label>
+        <div class="ls-input-wrap">
+          <span class="ls-input-icon">👤</span>
+          <input class="ls-input" id="lsRegUser" type="text"
+                 placeholder="Escolha um nome de usuário"
+                 autocomplete="off"
+                 onkeydown="if(event.key==='Enter') document.getElementById('lsRegPass').focus()">
+        </div>
+      </div>
+
+      <div class="ls-field">
+        <label class="ls-label" for="lsRegPass">Senha</label>
+        <div class="ls-input-wrap">
+          <span class="ls-input-icon">🔒</span>
+          <input class="ls-input" id="lsRegPass" type="password"
+                 placeholder="Crie uma senha"
+                 autocomplete="new-password"
+                 onkeydown="if(event.key==='Enter') document.getElementById('lsRegPass2').focus()">
+        </div>
+      </div>
+
+      <div class="ls-field">
+        <label class="ls-label" for="lsRegPass2">Confirmar Senha</label>
+        <div class="ls-input-wrap">
+          <span class="ls-input-icon">🔒</span>
+          <input class="ls-input" id="lsRegPass2" type="password"
+                 placeholder="Repita a senha"
+                 autocomplete="new-password"
+                 onkeydown="if(event.key==='Enter') doRegister()">
+        </div>
+      </div>
+
+      <button class="ls-reg-btn" id="lsRegBtn" onclick="doRegister()">
+        <span id="lsRegBtnText">Criar minha conta</span>
+      </button>
+
+      <p class="ls-reg-note">Sua conta será criada como <strong>Usuário padrão</strong>.<br>Solicite ao administrador para elevar suas permissões.</p>
+    </div>
+
+    <!-- Sucesso -->
+    <div class="ls-reg-success" id="lsRegSuccess">
+      <div class="reg-icon">✅</div>
+      <div class="reg-title">Conta criada!</div>
+      <div class="reg-sub">Seu cadastro foi realizado com sucesso.<br>Agora você já pode fazer login.</div>
+    </div>
+
+    <div class="ls-back-link">
+      <a onclick="showLoginPanel()">← Voltar para o login</a>
     </div>
 
     <div class="ls-footer">
@@ -1604,6 +1827,7 @@
     <button class="toolbar-btn" onclick="openModal('folder')">📁 <span class="btn-label">Nova pasta</span></button>
     <button class="toolbar-btn" onclick="openModal('file')">📄 <span class="btn-label">Novo arquivo</span></button>
     <button class="toolbar-btn drive-btn" onclick="openDriveLinkModal()">🔗 <span class="btn-label">Link Drive</span></button>
+    <button class="toolbar-btn" id="btnUsuarios" onclick="openUserManager()" style="display:none" title="Gerenciar Usuários">👥 <span class="btn-label">Usuários</span></button>
   </div>
 
   <!-- MAIN (col 2, row 2) -->
@@ -1651,6 +1875,33 @@
     <div class="status-item" id="statusSelected">Nenhum selecionado</div>
     <span class="status-sep">|</span>
     <div class="status-item" id="statusSize">0 KB usados</div>
+  </div>
+</div>
+
+<!-- USER MANAGER OVERLAY -->
+<div id="userManagerOverlay">
+  <div class="um-modal">
+    <div class="um-header">
+      <span class="um-title">👥 Gerenciar Usuários</span>
+      <button class="um-close" onclick="closeUserManager()">✕</button>
+    </div>
+    <div class="um-list" id="umList">
+      <div style="color:var(--text3);font-size:12px;text-align:center;padding:20px">Carregando...</div>
+    </div>
+    <div class="um-divider"></div>
+    <div class="um-form">
+      <div class="um-form-title" id="umFormTitle">➕ Novo Usuário</div>
+      <div class="um-form-row">
+        <input class="um-input" id="umNewUser" placeholder="Usuário" autocomplete="off">
+        <input class="um-input" id="umNewPass" type="password" placeholder="Senha">
+        <select class="um-input" id="umNewRole" style="flex:0 0 90px">
+          <option value="false">Usuário</option>
+          <option value="true">Admin</option>
+        </select>
+        <button class="um-submit" id="umSubmit" onclick="umSaveUser()">Salvar</button>
+      </div>
+      <div class="um-msg" id="umMsg"></div>
+    </div>
   </div>
 </div>
 
@@ -1717,24 +1968,80 @@
 <script>
 
 // ==================== LOGIN ====================
-// ┌─────────────────────────────────────────────────────────────────┐
-// │  ✏️  CREDENCIAIS DE ACESSO — altere aqui                        │
-// │                                                                 │
-// │  As senhas são armazenadas como hashes SHA-256 (nunca em texto  │
-// │  puro). Para gerar um novo hash, acesse:                        │
-// │  https://emn178.github.io/online-tools/sha256.html             │
-// │  e cole o hash gerado no campo "senhaHash" abaixo.             │
-// │                                                                 │
-// │  Você pode adicionar mais usuários à lista abaixo.              │
-// └─────────────────────────────────────────────────────────────────┘
-const USUARIOS = [
-  // senha: 'meddocs2025'
-  { usuario: 'admin', senhaHash: '04ec5063c3ff7aa8dd2c7d8b1d95aed3b24022487b899a91724e9d99d84b2927' },
-  // senha: 'sesab@2025'
-  { usuario: 'sesab', senhaHash: '4a68633b120820e6444aac7beb6a5be42bf007e95210722b398efecf545a44d7' },
-  // Para adicionar novo usuário, gere o hash da senha e cole abaixo:
-  // { usuario: 'novo', senhaHash: '<hash-sha256-da-senha>' },
+// ┌──────────────────────────────────────────────────────────────────────┐
+// │  ✏️  CONFIGURAÇÃO JSONBIN — siga os passos:                          │
+// │                                                                      │
+// │  1. Acesse https://jsonbin.io e crie uma conta gratuita              │
+// │  2. Vá em "API Keys" e copie sua Master Key                          │
+// │  3. Clique em "Create Bin", cole o JSON inicial abaixo e salve:      │
+// │     [{"usuario":"admin","senhaHash":"04ec5063...","isAdmin":true}]   │
+// │  4. Copie o Bin ID da URL e cole em JSONBIN_BIN_ID                   │
+// │  5. Cole sua Master Key em JSONBIN_API_KEY                           │
+// │                                                                      │
+// │  Senha padrão do admin: meddocs2025                                  │
+// └──────────────────────────────────────────────────────────────────────┘
+const JSONBIN_BIN_ID  = '69b163bcc3097a1dd5179aaa';
+const JSONBIN_API_KEY = '$2a$10$RWVOBCzux61lK4LBq5m2neznR82urnVZcOtksI8Zgrep5bKmvx2D2';
+
+let _usuariosCache = null;
+let _loggedUser    = null;
+
+// Usuários padrão para inicializar o bin (admin / meddocs2025)
+const _DEFAULT_USUARIOS = [
+  { usuario: 'admin', senhaHash: '04ec5063c3ff7aa8dd2c7d8b1d95aed3b24022487b899a91724e9d99d84b2927', isAdmin: true }
 ];
+
+async function getUsuarios(forceRefresh = false) {
+  if (_usuariosCache && !forceRefresh) return _usuariosCache;
+
+  if (JSONBIN_BIN_ID === 'SEU_BIN_ID_AQUI') {
+    // Fallback local — JSONBin não configurado
+    _usuariosCache = _DEFAULT_USUARIOS;
+    return _usuariosCache;
+  }
+
+  const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
+    headers: { 'X-Master-Key': JSONBIN_API_KEY }
+  });
+
+  if (!res.ok) throw new Error(`JSONBin retornou ${res.status}`);
+
+  const data = await res.json();
+  const record = data.record;
+
+  // Se o bin estiver vazio ou com formato inválido, inicializa com o admin padrão
+  if (!Array.isArray(record) || record.length === 0) {
+    await saveUsuarios(_DEFAULT_USUARIOS);
+    return _usuariosCache;
+  }
+
+  _usuariosCache = record;
+  return _usuariosCache;
+}
+
+async function saveUsuarios(lista) {
+  if (JSONBIN_BIN_ID === 'SEU_BIN_ID_AQUI') {
+    // Em modo local, apenas atualiza o cache em memória
+    _usuariosCache = lista;
+    return;
+  }
+
+  const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Master-Key': JSONBIN_API_KEY
+    },
+    body: JSON.stringify(lista)
+  });
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.message || `Erro ${res.status} ao salvar`);
+  }
+
+  _usuariosCache = lista; // Atualiza cache apenas após confirmação do servidor
+}
 
 // ┌──────────────────────────────────────────────────────────────────┐
 // │  ✏️  GOOGLE LOGIN — configure seu Client ID aqui                 │
@@ -1798,12 +2105,15 @@ function showLoginError(msg) {
   card.classList.add('shake');
 }
 
-function successLogin(displayName) {
+function successLogin(displayName, isAdmin) {
   document.getElementById('loginScreen').style.transition = 'opacity 0.45s ease';
   document.getElementById('loginScreen').style.opacity = '0';
   setTimeout(() => {
     document.getElementById('loginScreen').style.display = 'none';
     document.querySelector('.app').classList.remove('app-hidden');
+    // Mostra botão de gerenciar usuários apenas para admins
+    const adminBtn = document.getElementById('btnUsuarios');
+    if (adminBtn) adminBtn.style.display = isAdmin ? '' : 'none';
     toast(`Bem-vindo, ${displayName}! 👋`, 'success');
   }, 450);
 }
@@ -1845,7 +2155,6 @@ async function doLogin() {
   const err  = document.getElementById('lsError');
   const card = document.getElementById('lsCard');
 
-  // Clear previous errors
   err.classList.remove('visible');
   document.getElementById('lsUser').classList.remove('error');
   document.getElementById('lsPass').classList.remove('error');
@@ -1855,26 +2164,22 @@ async function doLogin() {
     err.classList.add('visible');
     if (!user) document.getElementById('lsUser').classList.add('error');
     if (!pass) document.getElementById('lsPass').classList.add('error');
-    card.classList.remove('shake');
-    void card.offsetWidth; // reflow to re-trigger animation
-    card.classList.add('shake');
+    card.classList.remove('shake'); void card.offsetWidth; card.classList.add('shake');
     return;
   }
 
-  // Loading state
   btn.classList.add('loading');
 
   try {
-    // Nunca comparamos a senha em texto puro — apenas o hash SHA-256
     const passHash = await sha256(pass);
-
-    const match = USUARIOS.find(u =>
+    const usuarios = await getUsuarios();
+    const match = usuarios.find(u =>
       u.usuario.toLowerCase() === user.toLowerCase() && u.senhaHash === passHash
     );
 
     if (match) {
-      // Success — fade out login screen
-      successLogin(match.usuario);
+      _loggedUser = match;
+      successLogin(match.usuario, match.isAdmin);
     } else {
       btn.classList.remove('loading');
       document.getElementById('lsErrorMsg').textContent = 'Usuário ou senha incorretos.';
@@ -1882,16 +2187,111 @@ async function doLogin() {
       document.getElementById('lsUser').classList.add('error');
       document.getElementById('lsPass').classList.add('error');
       document.getElementById('lsPass').value = '';
-      card.classList.remove('shake');
-      void card.offsetWidth;
-      card.classList.add('shake');
+      card.classList.remove('shake'); void card.offsetWidth; card.classList.add('shake');
       setTimeout(() => document.getElementById('lsPass').focus(), 100);
     }
   } catch(e) {
     btn.classList.remove('loading');
-    document.getElementById('lsErrorMsg').textContent = 'Erro interno. Tente novamente.';
+    document.getElementById('lsErrorMsg').textContent = 'Erro ao conectar. Tente novamente.';
     err.classList.add('visible');
   }
+}
+
+// ==================== REGISTER ====================
+function showRegisterPanel() {
+  // Reset form
+  document.getElementById('lsRegUser').value = '';
+  document.getElementById('lsRegPass').value = '';
+  document.getElementById('lsRegPass2').value = '';
+  document.getElementById('lsRegError').classList.remove('visible');
+  document.getElementById('lsRegSuccess').style.display = 'none';
+  document.getElementById('lsRegForm').style.display = '';
+  document.getElementById('lsRegBtn').disabled = false;
+  document.getElementById('lsRegBtnText').textContent = 'Criar minha conta';
+
+  // Switch panels
+  document.getElementById('lsCard').classList.add('hidden');
+  document.getElementById('lsRegPanel').classList.remove('hidden');
+  setTimeout(() => document.getElementById('lsRegUser').focus(), 50);
+}
+
+function showLoginPanel() {
+  document.getElementById('lsRegPanel').classList.add('hidden');
+  document.getElementById('lsCard').classList.remove('hidden');
+  setTimeout(() => document.getElementById('lsUser').focus(), 50);
+}
+
+async function doRegister() {
+  const user  = document.getElementById('lsRegUser').value.trim();
+  const pass  = document.getElementById('lsRegPass').value;
+  const pass2 = document.getElementById('lsRegPass2').value;
+  const btn   = document.getElementById('lsRegBtn');
+  const errEl = document.getElementById('lsRegError');
+
+  errEl.classList.remove('visible');
+  document.getElementById('lsRegUser').classList.remove('error');
+  document.getElementById('lsRegPass').classList.remove('error');
+  document.getElementById('lsRegPass2').classList.remove('error');
+
+  // Validações
+  if (!user) {
+    showRegError('Informe um nome de usuário.', ['lsRegUser']); return;
+  }
+  if (user.length < 3) {
+    showRegError('Usuário deve ter pelo menos 3 caracteres.', ['lsRegUser']); return;
+  }
+  if (!/^[a-zA-Z0-9_.@-]+$/.test(user)) {
+    showRegError('Usuário contém caracteres inválidos.', ['lsRegUser']); return;
+  }
+  if (!pass) {
+    showRegError('Informe uma senha.', ['lsRegPass']); return;
+  }
+  if (pass.length < 4) {
+    showRegError('Senha deve ter pelo menos 4 caracteres.', ['lsRegPass']); return;
+  }
+  if (pass !== pass2) {
+    showRegError('As senhas não coincidem.', ['lsRegPass', 'lsRegPass2']); return;
+  }
+
+  btn.disabled = true;
+  document.getElementById('lsRegBtnText').textContent = 'Criando conta...';
+
+  try {
+    const usuarios = await getUsuarios(true);
+
+    // Verifica duplicata
+    if (usuarios.find(u => u.usuario.toLowerCase() === user.toLowerCase())) {
+      showRegError('Este nome de usuário já está em uso.', ['lsRegUser']);
+      btn.disabled = false;
+      document.getElementById('lsRegBtnText').textContent = 'Criar minha conta';
+      return;
+    }
+
+    const senhaHash = await sha256(pass);
+    usuarios.push({ usuario: user, senhaHash, isAdmin: false });
+    await saveUsuarios(usuarios);
+
+    // Mostra tela de sucesso
+    document.getElementById('lsRegForm').style.display = 'none';
+    document.getElementById('lsRegSuccess').style.display = 'flex';
+    // Volta para login automaticamente após 2.5s
+    setTimeout(() => {
+      showLoginPanel();
+      document.getElementById('lsUser').value = user;
+      document.getElementById('lsPass').focus();
+    }, 2500);
+
+  } catch(e) {
+    showRegError('Erro ao criar conta: ' + e.message, []);
+    btn.disabled = false;
+    document.getElementById('lsRegBtnText').textContent = 'Criar minha conta';
+  }
+}
+
+function showRegError(msg, fields = []) {
+  document.getElementById('lsRegErrorMsg').textContent = msg;
+  document.getElementById('lsRegError').classList.add('visible');
+  fields.forEach(id => document.getElementById(id)?.classList.add('error'));
 }
 
 function togglePw() {
@@ -2971,6 +3371,160 @@ function toast(msg, type = 'info') {
   container.appendChild(el);
   setTimeout(() => el.remove(), 2800);
 }
+
+// ==================== USER MANAGER ====================
+let _umEditingUser = null; // nome do usuário sendo editado (null = novo)
+
+async function openUserManager() {
+  _umEditingUser = null;
+  document.getElementById('userManagerOverlay').classList.add('open');
+  resetUmForm();
+  await renderUmList();
+}
+
+function closeUserManager() {
+  document.getElementById('userManagerOverlay').classList.remove('open');
+}
+
+async function renderUmList() {
+  const list = document.getElementById('umList');
+  list.innerHTML = '<div style="color:var(--text3);font-size:12px;text-align:center;padding:20px">Carregando...</div>';
+  try {
+    const usuarios = await getUsuarios();
+    if (!usuarios.length) {
+      list.innerHTML = '<div style="color:var(--text3);font-size:12px;text-align:center;padding:20px">Nenhum usuário cadastrado.</div>';
+      return;
+    }
+    list.innerHTML = '';
+    usuarios.forEach(u => {
+      const isMe = _loggedUser && u.usuario === _loggedUser.usuario;
+      const initials = u.usuario.substring(0,2).toUpperCase();
+      const row = document.createElement('div');
+      row.className = 'um-row';
+      row.innerHTML = `
+        <div class="um-avatar">${initials}</div>
+        <div class="um-info">
+          <div class="um-name">${u.usuario}${isMe ? ' <span style="font-size:10px;color:var(--text3)">(você)</span>' : ''}</div>
+        </div>
+        <span class="um-badge ${u.isAdmin ? '' : 'user'}">${u.isAdmin ? 'Admin' : 'Usuário'}</span>
+        <div class="um-actions">
+          <button class="um-btn" onclick="umEditUser('${u.usuario}')" title="Editar">✏️</button>
+          ${isMe ? '' : `<button class="um-btn danger" onclick="umDeleteUser('${u.usuario}')" title="Remover">🗑️</button>`}
+        </div>
+      `;
+      list.appendChild(row);
+    });
+  } catch(e) {
+    list.innerHTML = '<div style="color:var(--warn);font-size:12px;text-align:center;padding:20px">Erro ao carregar usuários.</div>';
+  }
+}
+
+function resetUmForm(label = '➕ Novo Usuário', btnLabel = 'Criar') {
+  _umEditingUser = null;
+  document.getElementById('umFormTitle').textContent = label;
+  document.getElementById('umNewUser').value = '';
+  document.getElementById('umNewUser').disabled = false;
+  document.getElementById('umNewPass').value = '';
+  document.getElementById('umNewPass').placeholder = 'Senha';
+  document.getElementById('umNewRole').value = 'false';
+  document.getElementById('umSubmit').textContent = btnLabel;
+  document.getElementById('umMsg').textContent = '';
+  document.getElementById('umMsg').className = 'um-msg';
+}
+
+async function umEditUser(nome) {
+  const usuarios = await getUsuarios();
+  const u = usuarios.find(x => x.usuario === nome);
+  if (!u) return;
+  _umEditingUser = nome;
+  document.getElementById('umFormTitle').textContent = `✏️ Editando: ${nome}`;
+  document.getElementById('umNewUser').value = u.usuario;
+  document.getElementById('umNewUser').disabled = true;
+  document.getElementById('umNewPass').value = '';
+  document.getElementById('umNewPass').placeholder = 'Nova senha (deixe em branco para manter)';
+  document.getElementById('umNewRole').value = String(u.isAdmin);
+  document.getElementById('umSubmit').textContent = 'Salvar';
+  document.getElementById('umMsg').textContent = '';
+  document.getElementById('umNewUser').closest('.um-form').querySelector('.um-input').focus();
+}
+
+async function umSaveUser() {
+  const btn  = document.getElementById('umSubmit');
+  const msg  = document.getElementById('umMsg');
+  const nome = document.getElementById('umNewUser').value.trim();
+  const pass = document.getElementById('umNewPass').value;
+  const isAdmin = document.getElementById('umNewRole').value === 'true';
+
+  msg.textContent = '';
+  msg.className = 'um-msg';
+
+  if (!nome) { msg.textContent = 'Informe o nome do usuário.'; msg.className = 'um-msg err'; return; }
+  if (!_umEditingUser && !pass) { msg.textContent = 'Informe uma senha.'; msg.className = 'um-msg err'; return; }
+  if (pass && pass.length < 4) { msg.textContent = 'Senha muito curta (mínimo 4 caracteres).'; msg.className = 'um-msg err'; return; }
+
+  btn.disabled = true;
+  btn.textContent = '...';
+
+  try {
+    // Sempre busca dados frescos antes de salvar para evitar sobrescrever dados de outra sessão
+    const usuarios = await getUsuarios(true);
+
+    if (_umEditingUser) {
+      // Editar existente
+      const idx = usuarios.findIndex(u => u.usuario === _umEditingUser);
+      if (idx < 0) throw new Error('Usuário não encontrado');
+      if (pass) usuarios[idx].senhaHash = await sha256(pass);
+      usuarios[idx].isAdmin = isAdmin;
+    } else {
+      // Criar novo — verifica duplicata
+      if (usuarios.find(u => u.usuario.toLowerCase() === nome.toLowerCase())) {
+        msg.textContent = 'Este usuário já existe.';
+        msg.className = 'um-msg err';
+        btn.disabled = false;
+        btn.textContent = _umEditingUser ? 'Salvar' : 'Criar';
+        return;
+      }
+      usuarios.push({ usuario: nome, senhaHash: await sha256(pass), isAdmin });
+    }
+
+    await saveUsuarios(usuarios); // lança exceção se falhar
+    msg.textContent = _umEditingUser ? '✓ Usuário atualizado!' : '✓ Usuário criado com sucesso!';
+    msg.className = 'um-msg ok';
+    resetUmForm();
+    await renderUmList();
+  } catch(e) {
+    msg.textContent = '✕ Erro: ' + e.message;
+    msg.className = 'um-msg err';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = _umEditingUser ? 'Salvar' : 'Criar';
+  }
+}
+
+async function umDeleteUser(nome) {
+  if (!confirm(`Remover o usuário "${nome}"? Esta ação não pode ser desfeita.`)) return;
+  try {
+    const usuarios = await getUsuarios(true);
+    // Impede remover o último admin
+    const admins = usuarios.filter(u => u.isAdmin);
+    const alvo   = usuarios.find(u => u.usuario === nome);
+    if (alvo?.isAdmin && admins.length === 1) {
+      toast('Não é possível remover o único administrador.', 'error');
+      return;
+    }
+    const nova = usuarios.filter(u => u.usuario !== nome);
+    await saveUsuarios(nova);
+    await renderUmList();
+    toast(`Usuário "${nome}" removido.`, 'success');
+  } catch(e) {
+    toast('Erro ao remover: ' + e.message, 'error');
+  }
+}
+
+// Fechar ao clicar no fundo
+document.getElementById('userManagerOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeUserManager();
+});
 
 // ==================== DRIVE LINK MODAL ====================
 function openDriveLinkModal() {
