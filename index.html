@@ -940,6 +940,194 @@
   .ad-footer-dot { width: 5px; height: 5px; border-radius: 50%; background: #e03d3d; display: inline-block; }
   .ad-footer-sep { color: #dce5ef; }
 
+  /* =========================================
+     PENDING APPROVAL OVERLAY
+     ========================================= */
+  #pendingOverlay {
+    position: fixed; inset: 0;
+    background: rgba(10, 25, 50, 0.72);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 9000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    animation: adFadeIn 0.25s ease;
+  }
+  #pendingOverlay.visible { display: flex; }
+
+  .pending-panel {
+    background: #fff;
+    border-radius: 20px;
+    padding: 40px 36px 32px;
+    width: 420px;
+    max-width: 90vw;
+    text-align: center;
+    box-shadow: 0 32px 80px rgba(10,25,60,0.28), 0 0 0 1px rgba(15,111,186,0.08);
+    animation: adSlideIn 0.28s cubic-bezier(0.34,1.56,0.64,1);
+    position: relative;
+    overflow: hidden;
+  }
+  .pending-panel::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #f4b400, #e8820c, #f4b400);
+  }
+  .pending-icon-wrap {
+    width: 80px; height: 80px;
+    margin: 0 auto 18px;
+    background: linear-gradient(135deg, #f4b400, #e8820c);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 36px;
+    box-shadow: 0 8px 24px rgba(244,180,0,0.38);
+  }
+  .pending-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: #1a2638;
+    margin-bottom: 10px;
+  }
+  .pending-msg {
+    font-size: 13px;
+    color: #5a6e85;
+    line-height: 1.65;
+    margin-bottom: 20px;
+  }
+  .pending-folder-info {
+    background: #f7f9fc;
+    border: 1px solid #dce5ef;
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-bottom: 22px;
+    font-size: 12px;
+    color: #1a2638;
+    font-weight: 600;
+    display: flex; align-items: center; gap: 10px;
+    text-align: left;
+  }
+  .pending-folder-icon { font-size: 20px; flex-shrink: 0; }
+  .pending-close-btn {
+    background: linear-gradient(135deg, #0f6fba, #0a4f8a);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 11px 28px;
+    cursor: pointer;
+    transition: all 0.15s;
+    box-shadow: 0 4px 14px rgba(15,111,186,0.35);
+  }
+  .pending-close-btn:hover { background: linear-gradient(135deg, #1580d0, #0f6fba); transform: translateY(-1px); }
+
+  /* Folder lock badge */
+  .folder-locked-badge {
+    position: absolute;
+    top: 5px; right: 5px;
+    background: rgba(244,180,0,0.9);
+    border-radius: 4px;
+    font-size: 10px;
+    padding: 2px 5px;
+    color: #1a2638;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+  }
+
+  /* User Manager permission tab */
+  .um-tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 12px;
+  }
+  .um-tab {
+    flex: 1;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-bottom: none;
+    color: var(--text2);
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 7px 10px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+  }
+  .um-tab:first-child { border-radius: 6px 0 0 0; }
+  .um-tab:last-child { border-radius: 0 6px 0 0; }
+  .um-tab.active { background: var(--bg2); color: var(--accent); border-top: 2px solid var(--accent); }
+  .um-tab-panel { display: none; }
+  .um-tab-panel.active { display: block; }
+
+  /* Pending users badge in user list */
+  .um-pending-badge {
+    background: #f4b400;
+    color: #1a2638;
+    border-radius: 10px;
+    font-size: 9px;
+    font-weight: 800;
+    padding: 2px 6px;
+    margin-left: 4px;
+  }
+
+  .um-approve-btn {
+    background: rgba(23,160,90,0.12);
+    border: 1px solid rgba(23,160,90,0.4);
+    border-radius: 5px;
+    color: #17a05a;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .um-approve-btn:hover { background: rgba(23,160,90,0.22); }
+  .um-reject-btn {
+    background: rgba(224,61,61,0.08);
+    border: 1px solid rgba(224,61,61,0.3);
+    border-radius: 5px;
+    color: var(--warn);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .um-reject-btn:hover { background: rgba(224,61,61,0.16); }
+
+  /* Folder permission panel */
+  .fp-folder-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 7px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--bg3);
+    margin-bottom: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .fp-folder-item:hover { border-color: var(--accent2); background: var(--bg4); }
+  .fp-folder-item.selected { border-color: var(--accent); background: var(--selected); color: var(--accent); }
+  .fp-user-row {
+    display: flex; align-items: center; gap: 8px;
+    padding: 5px 8px;
+    border-radius: 5px;
+    font-size: 11px;
+    margin-bottom: 3px;
+  }
+  .fp-user-row:hover { background: var(--bg4); }
+  .fp-checkbox {
+    width: 15px; height: 15px;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+  .fp-open-label { font-size: 10px; color: var(--text3); font-style: italic; }
 
   /* =========================================
      RESPONSIVO
@@ -1741,9 +1929,9 @@
 
     <!-- Sucesso -->
     <div class="ls-reg-success" id="lsRegSuccess">
-      <div class="reg-icon">✅</div>
+      <div class="reg-icon">⏳</div>
       <div class="reg-title">Conta criada!</div>
-      <div class="reg-sub">Seu cadastro foi realizado com sucesso.<br>Agora você já pode fazer login.</div>
+      <div class="reg-sub">Seu cadastro foi realizado.<br><strong>Aguarde aprovação do administrador</strong> para acessar as pastas.</div>
     </div>
 
     <div class="ls-back-link">
@@ -1880,28 +2068,60 @@
 
 <!-- USER MANAGER OVERLAY -->
 <div id="userManagerOverlay">
-  <div class="um-modal">
+  <div class="um-modal" style="max-width:580px;width:96vw">
     <div class="um-header">
       <span class="um-title">👥 Gerenciar Usuários</span>
       <button class="um-close" onclick="closeUserManager()">✕</button>
     </div>
-    <div class="um-list" id="umList">
-      <div style="color:var(--text3);font-size:12px;text-align:center;padding:20px">Carregando...</div>
+    <!-- Tabs -->
+    <div class="um-tabs">
+      <button class="um-tab active" id="tabUsuarios" onclick="switchUmTab('usuarios')">👤 Usuários <span class="um-pending-badge" id="pendingCount" style="display:none">0</span></button>
+      <button class="um-tab" id="tabPermissoes" onclick="switchUmTab('permissoes')">🔐 Permissões por Pasta</button>
     </div>
-    <div class="um-divider"></div>
-    <div class="um-form">
-      <div class="um-form-title" id="umFormTitle">➕ Novo Usuário</div>
-      <div class="um-form-row">
-        <input class="um-input" id="umNewUser" placeholder="Usuário" autocomplete="off">
-        <input class="um-input" id="umNewPass" type="password" placeholder="Senha">
-        <select class="um-input" id="umNewRole" style="flex:0 0 90px">
-          <option value="false">Usuário</option>
-          <option value="true">Admin</option>
-        </select>
-        <button class="um-submit" id="umSubmit" onclick="umSaveUser()">Salvar</button>
+
+    <!-- Tab: Usuários -->
+    <div class="um-tab-panel active" id="panelUsuarios">
+      <div class="um-list" id="umList">
+        <div style="color:var(--text3);font-size:12px;text-align:center;padding:20px">Carregando...</div>
       </div>
-      <div class="um-msg" id="umMsg"></div>
+      <div class="um-divider"></div>
+      <div class="um-form">
+        <div class="um-form-title" id="umFormTitle">➕ Novo Usuário</div>
+        <div class="um-form-row">
+          <input class="um-input" id="umNewUser" placeholder="Usuário" autocomplete="off">
+          <input class="um-input" id="umNewPass" type="password" placeholder="Senha">
+          <select class="um-input" id="umNewRole" style="flex:0 0 90px">
+            <option value="false">Usuário</option>
+            <option value="true">Admin</option>
+          </select>
+          <button class="um-submit" id="umSubmit" onclick="umSaveUser()">Salvar</button>
+        </div>
+        <div class="um-msg" id="umMsg"></div>
+      </div>
     </div>
+
+    <!-- Tab: Permissões por Pasta -->
+    <div class="um-tab-panel" id="panelPermissoes">
+      <div style="display:flex;gap:10px;height:300px;padding:4px 0">
+        <!-- Folder list -->
+        <div style="flex:0 0 180px;overflow-y:auto;padding-right:4px">
+          <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-bottom:8px;padding-left:2px">Pastas</div>
+          <div id="fpFolderList"></div>
+        </div>
+        <!-- Users for selected folder -->
+        <div style="flex:1;overflow-y:auto;border-left:1px solid var(--border);padding-left:12px">
+          <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-bottom:8px">Acesso à pasta</div>
+          <div id="fpUserList"><div style="color:var(--text3);font-size:12px;padding:20px 0;text-align:center">← Selecione uma pasta</div></div>
+          <div id="fpSaveRow" style="display:none;margin-top:10px">
+            <button class="um-submit" style="width:100%" onclick="fpSavePermissions()">💾 Salvar permissões</button>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:8px;padding:8px 10px;background:var(--bg3);border-radius:6px;font-size:10.5px;color:var(--text3);border:1px solid var(--border)">
+        💡 <strong>Dica:</strong> Pastas marcadas como <em>Aberta</em> são acessíveis para todos os usuários aprovados. Desmarque para restringir apenas aos usuários selecionados.
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -1962,6 +2182,24 @@
   </div>
 </div>
 
+<!-- PENDING ACCESS OVERLAY -->
+<div id="pendingOverlay">
+  <div class="pending-panel">
+    <div class="pending-icon-wrap">🔒</div>
+    <div class="pending-title" id="pendingTitle">Acesso Pendente</div>
+    <div class="pending-msg" id="pendingMsg">Você não tem permissão para acessar esta pasta. Solicite ao administrador do sistema.</div>
+    <div class="pending-folder-info">
+      <span class="pending-folder-icon">📁</span>
+      <div>
+        <div style="font-size:9px;font-weight:600;color:#9aafc4;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px">Pasta restrita</div>
+        <div id="pendingFolderName" style="font-size:13px;font-weight:700;color:#1a2638">—</div>
+      </div>
+    </div>
+    <button class="pending-close-btn" onclick="closePendingOverlay()">Entendido</button>
+    <div style="margin-top:16px;font-size:10.5px;color:#9aafc4">Entre em contato com o administrador para solicitar acesso.</div>
+  </div>
+</div>
+
 <!-- TOAST CONTAINER -->
 <div class="toast-container" id="toastContainer"></div>
 
@@ -1982,6 +2220,56 @@
 // └──────────────────────────────────────────────────────────────────────┘
 const JSONBIN_BIN_ID  = '69b163bcc3097a1dd5179aaa';
 const JSONBIN_API_KEY = '$2a$10$RWVOBCzux61lK4LBq5m2neznR82urnVZcOtksI8Zgrep5bKmvx2D2';
+
+// ─── Permissões de pasta (segundo bin JSONBin) ───────────────────────────────
+// Estrutura: { "NomePasta": { open: true|false, users: ["user1","user2"] }, ... }
+// Se open=true → qualquer usuário aprovado acessa
+// Se open=false → apenas usuários em users[] podem acessar (+ admins sempre)
+// Crie um segundo bin em jsonbin.io e cole o ID abaixo:
+const JSONBIN_PERMS_BIN_ID = '69b163bcc3097a1dd5179aab'; // ← mesmo bin, pasta diferente (ou crie novo)
+
+let _permsCache = null;
+
+async function getPermissoes(forceRefresh = false) {
+  if (_permsCache && !forceRefresh) return _permsCache;
+  if (JSONBIN_PERMS_BIN_ID === 'SEU_PERMS_BIN_ID' || JSONBIN_BIN_ID === 'SEU_BIN_ID_AQUI') {
+    _permsCache = {};
+    return _permsCache;
+  }
+  try {
+    const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_PERMS_BIN_ID}/latest`, {
+      headers: { 'X-Master-Key': JSONBIN_API_KEY }
+    });
+    if (!res.ok) { _permsCache = {}; return _permsCache; }
+    const data = await res.json();
+    _permsCache = (data.record && typeof data.record === 'object' && !Array.isArray(data.record)) ? data.record : {};
+    return _permsCache;
+  } catch(e) { _permsCache = {}; return _permsCache; }
+}
+
+async function savePermissoes(perms) {
+  if (JSONBIN_PERMS_BIN_ID === 'SEU_PERMS_BIN_ID' || JSONBIN_BIN_ID === 'SEU_BIN_ID_AQUI') {
+    _permsCache = perms; return;
+  }
+  const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_PERMS_BIN_ID}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_API_KEY },
+    body: JSON.stringify(perms)
+  });
+  if (!res.ok) throw new Error('Erro ao salvar permissões');
+  _permsCache = perms;
+}
+
+// Verifica se o usuário logado pode acessar a pasta
+async function canAccessFolder(folderName) {
+  if (!_loggedUser) return false;
+  if (_loggedUser.isAdmin) return true; // admin acessa tudo
+  const perms = await getPermissoes();
+  const p = perms[folderName];
+  if (!p) return true; // sem configuração = aberta por padrão
+  if (p.open === true) return true;
+  return Array.isArray(p.users) && p.users.includes(_loggedUser.usuario);
+}
 
 let _usuariosCache = null;
 let _loggedUser    = null;
@@ -2178,6 +2466,14 @@ async function doLogin() {
     );
 
     if (match) {
+      // Bloqueia login de usuários não aprovados (exceto admins)
+      if (!match.isAdmin && match.aprovado === false) {
+        btn.classList.remove('loading');
+        document.getElementById('lsErrorMsg').textContent = 'Sua conta ainda não foi aprovada pelo administrador.';
+        err.classList.add('visible');
+        card.classList.remove('shake'); void card.offsetWidth; card.classList.add('shake');
+        return;
+      }
       _loggedUser = match;
       successLogin(match.usuario, match.isAdmin);
     } else {
@@ -2268,7 +2564,7 @@ async function doRegister() {
     }
 
     const senhaHash = await sha256(pass);
-    usuarios.push({ usuario: user, senhaHash, isAdmin: false });
+    usuarios.push({ usuario: user, senhaHash, isAdmin: false, aprovado: false });
     await saveUsuarios(usuarios);
 
     // Mostra tela de sucesso
@@ -2466,7 +2762,25 @@ function getNode(path) {
 function navigateTo(path, addHistory = true, fromBrowser = false) {
   const node = getNode(path);
   if (!node || node.type !== 'folder') return;
-  
+
+  // Verifica permissão quando navega para dentro de uma pasta (caminho mais profundo que o atual)
+  const targetFolderName = path[path.length - 1];
+  const isGoingDeeper = path.length > currentPath.length;
+  if (isGoingDeeper && targetFolderName !== 'Início') {
+    canAccessFolder(targetFolderName).then(allowed => {
+      if (!allowed) {
+        showPendingOverlay(targetFolderName);
+      } else {
+        _doNavigateTo(path, addHistory, fromBrowser);
+      }
+    });
+    return;
+  }
+
+  _doNavigateTo(path, addHistory, fromBrowser);
+}
+
+function _doNavigateTo(path, addHistory = true, fromBrowser = false) {
   currentPath = [...path];
   selectedItems.clear();
   
@@ -2503,11 +2817,11 @@ window.addEventListener('popstate', function(e) {
     // Keep internal index in sync
     const idx = navHistory.findIndex(h => h.join('/') === path.join('/'));
     if (idx !== -1) historyIndex = idx;
-    navigateTo(path, false, true);
+    _doNavigateTo(path, false, true);
   } else {
     // No state — fall back to root
     historyIndex = 0;
-    navigateTo(['Início'], false, true);
+    _doNavigateTo(['Início'], false, true);
   }
 });
 
@@ -2852,7 +3166,14 @@ function handleDblClick(name) {
     return;
   }
   if (item.type === 'folder') {
-    navigateTo([...currentPath, name]);
+    // Verifica permissão de acesso à pasta
+    canAccessFolder(name).then(allowed => {
+      if (!allowed) {
+        showPendingOverlay(name);
+      } else {
+        navigateTo([...currentPath, name]);
+      }
+    });
   } else if (item.type === 'drive-folder' && item.url) {
     openDriveFile(item);
   } else if (item.url) {
@@ -2918,9 +3239,21 @@ function closeAccessDenied(e) {
   document.getElementById('accessDeniedOverlay').style.display = 'none';
 }
 
+// ==================== PENDING / RESTRICTED FOLDER OVERLAY ====================
+function showPendingOverlay(folderName) {
+  document.getElementById('pendingFolderName').textContent = folderName;
+  const overlay = document.getElementById('pendingOverlay');
+  overlay.classList.add('visible');
+}
+
+function closePendingOverlay() {
+  document.getElementById('pendingOverlay').classList.remove('visible');
+}
+
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     document.getElementById('accessDeniedOverlay').style.display = 'none';
+    document.getElementById('pendingOverlay').classList.remove('visible');
   }
 });
 
@@ -3405,7 +3738,16 @@ async function renderUmList() {
   const list = document.getElementById('umList');
   list.innerHTML = '<div style="color:var(--text3);font-size:12px;text-align:center;padding:20px">Carregando...</div>';
   try {
-    const usuarios = await getUsuarios();
+    const usuarios = await getUsuarios(true);
+
+    // Atualiza badge de pendentes
+    const pendingUsers = usuarios.filter(u => !u.isAdmin && u.aprovado === false);
+    const badge = document.getElementById('pendingCount');
+    if (badge) {
+      if (pendingUsers.length > 0) { badge.textContent = pendingUsers.length; badge.style.display = ''; }
+      else { badge.style.display = 'none'; }
+    }
+
     if (!usuarios.length) {
       list.innerHTML = '<div style="color:var(--text3);font-size:12px;text-align:center;padding:20px">Nenhum usuário cadastrado.</div>';
       return;
@@ -3414,16 +3756,22 @@ async function renderUmList() {
     usuarios.forEach(u => {
       const isMe = _loggedUser && u.usuario === _loggedUser.usuario;
       const initials = u.usuario.substring(0,2).toUpperCase();
+      const isPending = !u.isAdmin && u.aprovado === false;
       const row = document.createElement('div');
       row.className = 'um-row';
+      row.style.opacity = isPending ? '0.9' : '1';
       row.innerHTML = `
-        <div class="um-avatar">${initials}</div>
+        <div class="um-avatar" style="${isPending ? 'background:linear-gradient(135deg,#f4b400,#e8820c)' : ''}">${initials}</div>
         <div class="um-info">
-          <div class="um-name">${u.usuario}${isMe ? ' <span style="font-size:10px;color:var(--text3)">(você)</span>' : ''}</div>
+          <div class="um-name">${u.usuario}${isMe ? ' <span style="font-size:10px;color:var(--text3)">(você)</span>' : ''}
+            ${isPending ? '<span style="font-size:10px;color:#e8820c;font-weight:700;margin-left:4px">⏳ Aguardando aprovação</span>' : ''}
+          </div>
         </div>
-        <span class="um-badge ${u.isAdmin ? '' : 'user'}">${u.isAdmin ? 'Admin' : 'Usuário'}</span>
-        <div class="um-actions">
-          <button class="um-btn" onclick="umEditUser('${u.usuario}')" title="Editar">✏️</button>
+        <span class="um-badge ${u.isAdmin ? '' : (isPending ? '' : 'user')}" style="${isPending ? 'background:rgba(244,180,0,0.15);color:#c87000;border-color:rgba(244,180,0,0.4)' : ''}">${u.isAdmin ? 'Admin' : (isPending ? 'Pendente' : 'Usuário')}</span>
+        <div class="um-actions" style="gap:4px;flex-wrap:wrap">
+          ${isPending ? `<button class="um-approve-btn" onclick="umApproveUser('${u.usuario}')">✓ Aprovar</button>` : ''}
+          ${isPending ? `<button class="um-reject-btn" onclick="umRejectUser('${u.usuario}')">✕ Recusar</button>` : ''}
+          ${!isPending ? `<button class="um-btn" onclick="umEditUser('${u.usuario}')" title="Editar">✏️</button>` : ''}
           ${isMe ? '' : `<button class="um-btn danger" onclick="umDeleteUser('${u.usuario}')" title="Remover">🗑️</button>`}
         </div>
       `;
@@ -3499,7 +3847,7 @@ async function umSaveUser() {
         btn.textContent = _umEditingUser ? 'Salvar' : 'Criar';
         return;
       }
-      usuarios.push({ usuario: nome, senhaHash: await sha256(pass), isAdmin });
+      usuarios.push({ usuario: nome, senhaHash: await sha256(pass), isAdmin, aprovado: true });
     }
 
     await saveUsuarios(usuarios); // lança exceção se falhar
@@ -3533,6 +3881,133 @@ async function umDeleteUser(nome) {
     toast(`Usuário "${nome}" removido.`, 'success');
   } catch(e) {
     toast('Erro ao remover: ' + e.message, 'error');
+  }
+}
+
+// ==================== APPROVE / REJECT USERS ====================
+async function umApproveUser(nome) {
+  try {
+    const usuarios = await getUsuarios(true);
+    const idx = usuarios.findIndex(u => u.usuario === nome);
+    if (idx < 0) return;
+    usuarios[idx].aprovado = true;
+    await saveUsuarios(usuarios);
+    await renderUmList();
+    toast(`✓ Usuário "${nome}" aprovado!`, 'success');
+  } catch(e) {
+    toast('Erro ao aprovar: ' + e.message, 'error');
+  }
+}
+
+async function umRejectUser(nome) {
+  if (!confirm(`Recusar e remover a conta de "${nome}"? Ação irreversível.`)) return;
+  try {
+    const usuarios = await getUsuarios(true);
+    const nova = usuarios.filter(u => u.usuario !== nome);
+    await saveUsuarios(nova);
+    await renderUmList();
+    toast(`Conta de "${nome}" removida.`, 'info');
+  } catch(e) {
+    toast('Erro: ' + e.message, 'error');
+  }
+}
+
+// ==================== TAB SWITCHER ====================
+function switchUmTab(tab) {
+  document.getElementById('panelUsuarios').classList.toggle('active', tab === 'usuarios');
+  document.getElementById('panelPermissoes').classList.toggle('active', tab === 'permissoes');
+  document.getElementById('tabUsuarios').classList.toggle('active', tab === 'usuarios');
+  document.getElementById('tabPermissoes').classList.toggle('active', tab === 'permissoes');
+  if (tab === 'permissoes') renderFpFolderList();
+}
+
+// ==================== FOLDER PERMISSIONS ====================
+let _fpSelectedFolder = null;
+
+function getAllFolderNames(node, acc = []) {
+  if (!node || !node.children) return acc;
+  node.children.forEach(c => {
+    if (c.type === 'folder') {
+      acc.push(c.name);
+      getAllFolderNames(c, acc);
+    }
+  });
+  return acc;
+}
+
+async function renderFpFolderList() {
+  const list = document.getElementById('fpFolderList');
+  const perms = await getPermissoes();
+  const folders = getAllFolderNames(fs);
+  if (!folders.length) {
+    list.innerHTML = '<div style="color:var(--text3);font-size:11px;padding:10px 0">Nenhuma pasta encontrada.</div>';
+    return;
+  }
+  list.innerHTML = '';
+  folders.forEach(name => {
+    const p = perms[name];
+    const isLocked = p && p.open === false;
+    const div = document.createElement('div');
+    div.className = 'fp-folder-item' + (_fpSelectedFolder === name ? ' selected' : '');
+    div.innerHTML = `
+      <span style="font-size:14px">${isLocked ? '🔒' : '📁'}</span>
+      <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${name}</span>
+      ${isLocked ? '<span style="font-size:9px;color:#e8820c;font-weight:700">RESTRITA</span>' : ''}
+    `;
+    div.onclick = () => { _fpSelectedFolder = name; renderFpFolderList(); renderFpUserList(name); };
+    list.appendChild(div);
+  });
+}
+
+async function renderFpUserList(folderName) {
+  const userListEl = document.getElementById('fpUserList');
+  const saveRow = document.getElementById('fpSaveRow');
+  const usuarios = await getUsuarios();
+  const perms = await getPermissoes();
+  const p = perms[folderName] || { open: true, users: [] };
+  const nonAdmins = usuarios.filter(u => !u.isAdmin && u.aprovado !== false);
+
+  userListEl.innerHTML = `
+    <div style="margin-bottom:10px;padding:8px;background:var(--bg3);border-radius:6px;border:1px solid var(--border)">
+      <label class="fp-user-row" style="cursor:pointer;font-weight:600">
+        <input type="checkbox" class="fp-checkbox" id="fpOpenCheck" ${p.open !== false ? 'checked' : ''}>
+        <span>🌐 Pasta aberta (todos os usuários aprovados)</span>
+      </label>
+    </div>
+    <div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:6px">Acesso individual</div>
+    ${nonAdmins.length === 0 ? '<div style="color:var(--text3);font-size:11px;padding:4px 0">Nenhum usuário não-admin aprovado.</div>' :
+      nonAdmins.map(u => `
+        <label class="fp-user-row" style="cursor:pointer">
+          <input type="checkbox" class="fp-checkbox fp-user-check" data-user="${u.usuario}"
+            ${(Array.isArray(p.users) && p.users.includes(u.usuario)) || p.open !== false ? 'checked' : ''}>
+          <span>${u.usuario}</span>
+        </label>
+      `).join('')
+    }
+    <div style="font-size:10px;color:var(--text3);margin-top:8px;padding-top:8px;border-top:1px solid var(--border)">
+      🔑 Admins sempre têm acesso total.
+    </div>
+  `;
+  saveRow.style.display = 'block';
+}
+
+async function fpSavePermissions() {
+  if (!_fpSelectedFolder) return;
+  const perms = await getPermissoes(true);
+  const openCheck = document.getElementById('fpOpenCheck');
+  const isOpen = openCheck?.checked ?? true;
+  const selectedUsers = Array.from(document.querySelectorAll('.fp-user-check'))
+    .filter(cb => cb.checked)
+    .map(cb => cb.dataset.user);
+
+  perms[_fpSelectedFolder] = { open: isOpen, users: isOpen ? [] : selectedUsers };
+
+  try {
+    await savePermissoes(perms);
+    toast(`Permissões de "${_fpSelectedFolder}" salvas!`, 'success');
+    renderFpFolderList();
+  } catch(e) {
+    toast('Erro ao salvar: ' + e.message, 'error');
   }
 }
 
